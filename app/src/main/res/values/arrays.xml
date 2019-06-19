@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="registro_array">
+        <item>1_Entrada</item>
+        <item>2_Saída para Almoço</item>
+        <item>3_Volta do Almoço</item>
+        <item>4_Saída</item>
+        <item>5_Entrada Extra</item>
+        <item>6_Saída Extra</item>
+    </string-array>
+</resources>
