@@ -67,8 +67,8 @@ public class ApontamentoArrayAdapter extends ArrayAdapter<JSONObject> {
         JSONObject category = getItem(position);
 
 // Recuperando referencia dos elementos da interface
-        txtData = (TextView) row.findViewById(R.id.txtData);
-        txtCodFuncionario = (TextView) row.findViewById(R.id.txtCodFuncionario);
+        txtData = (TextView) row.findViewById(R.id.lblListHeader);
+        txtCodFuncionario = (TextView) row.findViewById(R.id.lblListItem);
 
 // Setando valores
         txtData.setText(category.optString("DATA", ""));

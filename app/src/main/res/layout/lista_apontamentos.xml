@@ -14,13 +14,15 @@
             android:id="@+id/barraLista" app:title="Ponto Eletronico"
             app:titleMarginStart="@android:dimen/app_icon_size" tools:ignore="MissingConstraints"/>
 
-    <ListView android:id="@+id/Lista"
+    <ExpandableListView
+            android:id="@+id/lvExp"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
+              android:background="@color/white"
               android:layout_marginTop="50dp"
               android:dividerHeight="10dp" tools:layout_editor_absoluteY="41dp" tools:layout_editor_absoluteX="0dp"
               tools:ignore="MissingConstraints">
-    </ListView>;
+    </ExpandableListView>;
 
     <android.support.design.widget.FloatingActionButton
             android:id="@+id/btnAdd"

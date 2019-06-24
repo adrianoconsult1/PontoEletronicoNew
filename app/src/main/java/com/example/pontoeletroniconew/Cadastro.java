@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.*;
 import android.os.Bundle;
@@ -120,10 +121,15 @@ public class Cadastro extends Activity implements View.OnClickListener {
         long resultado;
 
         SQLiteDatabase db = new DatabaseHelper(getApplicationContext()).getWritableDatabase();
+
+        Cursor cursor = db.rawQuery("select codfuncionatio || ': ' || nome from funcionarios where codfuncionatio = "+funcionario,null);
+        cursor.moveToFirst();
+        String descricao = cursor.getString(0);
+
         valores = new ContentValues();
         valores.put("DATA", data);
         valores.put("CODFUNCIONATIO",funcionario);
-
+        valores.put("DESCRICAO",descricao);
         if(registro == 1)
         {
             valores.put("APONT1", apont);
