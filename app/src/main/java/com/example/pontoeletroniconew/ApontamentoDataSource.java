@@ -41,7 +41,8 @@ public class ApontamentoDataSource
      * Iremos retorna-los em List<JSONObject>, pois é o
      * formato que o nosso adapter espera.
      */
-    public List<JSONObject> todosApontamentos() {
+    public List<JSONObject> todosApontamentos()
+    {
            List<JSONObject> result = new ArrayList<JSONObject>();
 
 
@@ -54,7 +55,8 @@ public class ApontamentoDataSource
         Cursor cursor = db.rawQuery(query,null);
 
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()) {
+        while(!cursor.isAfterLast())
+        {
             JSONObject obj = new JSONObject();
 
             try{
@@ -156,7 +158,8 @@ public class ApontamentoDataSource
 
     }
 
-    public ArrayList<String> todasDatas() {
+    public ArrayList<String> todasDatas()
+    {
         ArrayList<String> result = new ArrayList<String>();
 
 
@@ -169,7 +172,8 @@ public class ApontamentoDataSource
         Cursor cursor = db.rawQuery(query,null);
 
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()) {
+        while(!cursor.isAfterLast())
+        {
             String obj = cursor.getString(0);
 
 
@@ -184,7 +188,8 @@ public class ApontamentoDataSource
 
     }
 
-    public List<String> apontamentosDoDia(String dia) {
+    public List<String> apontamentosDoDia(String dia)
+    {
         ArrayList<String> result = new ArrayList<String>();
 
         SimpleDateFormat saida = new SimpleDateFormat("yyyy-MM-dd");
@@ -210,7 +215,8 @@ public class ApontamentoDataSource
         Cursor cursor = db.rawQuery(query,null);
         sleep(5);
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()) {
+        while(!cursor.isAfterLast())
+        {
             String obj = new String(cursor.getString(0));
 
 
@@ -225,19 +231,23 @@ public class ApontamentoDataSource
 
     }
 
-    public int getQtdAptDia() {
+    public int getQtdAptDia()
+    {
         return qtdAptDia;
     }
 
-    public void setQtdAptDia(int qtdAptDia) {
+    public void setQtdAptDia(int qtdAptDia)
+    {
         this.qtdAptDia = qtdAptDia;
     }
 
-    public int getQtdHeader() {
+    public int getQtdHeader()
+    {
         return qtdHeader;
     }
 
-    public void setQtdHeader(int qtdHeader) {
+    public void setQtdHeader(int qtdHeader)
+    {
         this.qtdHeader = qtdHeader;
     }
 }

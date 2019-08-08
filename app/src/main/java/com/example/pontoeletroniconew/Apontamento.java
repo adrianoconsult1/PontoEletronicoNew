@@ -51,6 +51,7 @@ public class Apontamento extends Activity
     private int funcionario;
     private ImageButton floatButton;
     private String dataReg;
+    private long ROWID;
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -92,6 +93,7 @@ public class Apontamento extends Activity
                 it.putExtra("tipo",1);
                 it.putExtra("funcionarioApontamento",funcionario);
                 it.putExtra("dataApontamento",dataReg);
+                it.putExtra("ROWID",ROWID);
                 startActivity(it);
             }
         });
@@ -117,9 +119,9 @@ public class Apontamento extends Activity
         local4.setText(cursor.getString(11));
         localextra.setText(cursor.getString(12));
         localextra2.setText(cursor.getString(13));
+        ROWID = cursor.getLong(20);
 
-
-
+        Toast.makeText(this,""+ROWID, Toast.LENGTH_LONG).show();
 
 
     }
@@ -143,7 +145,7 @@ public class Apontamento extends Activity
 
 
         String selectQuery = "Select distinct strftime('%d/%m/%Y',a.data),b.nome,time(a.APONT1),time(a.APONT2),time(a.APONT3),time(a.APONT4),time(a.APONTEXTRA),time(a.APONTEXTRA2),a.LOCAL1,a.LOCAL2,a.LOCAL3,a.LOCAL4," +
-                "a.LOCALextra,a.LOCALextra2,a.GPS1,a.GPS2,a.GPS3,a.GPS4,a.GPSextra,a.GPSextra2 from apontamentos a left outer join funcionarios b on (a.CODFUNCIONATIO = b.codfuncionatio) where a.CODFUNCIONATIO = "+ funcionario +" and CAST(strftime('%s', a.DATA)  AS  integer) = CAST(strftime('%s', '"+dataFormatada+"')  AS  integer)";
+                "a.LOCALextra,a.LOCALextra2,a.GPS1,a.GPS2,a.GPS3,a.GPS4,a.GPSextra,a.GPSextra2,a.ROWID from apontamentos a left outer join funcionarios b on (a.CODFUNCIONATIO = b.codfuncionatio) where a.CODFUNCIONATIO = "+ funcionario +" and CAST(strftime('%s', a.DATA)  AS  integer) = CAST(strftime('%s', '"+dataFormatada+"')  AS  integer)";
         Log.i("queryItem",selectQuery);
         return selectQuery;
     }

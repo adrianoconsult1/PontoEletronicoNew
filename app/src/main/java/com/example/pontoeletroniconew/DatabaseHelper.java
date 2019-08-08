@@ -225,7 +225,7 @@ private void copyDatabase()
         createDataBase();
 
         // Abrindo database
-        String path = DBPATH + DBNAME;
+        String path =  DBPATH + DBNAME;
 
         return SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READWRITE);
         }catch (Exception e)

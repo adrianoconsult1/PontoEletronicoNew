@@ -1,53 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:orientation="vertical">
     <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" tools:layout_editor_absoluteY="55dp" tools:layout_editor_absoluteX="368dp"
             tools:ignore="MissingConstraints">
-        <LinearLayout
+        <RelativeLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="fill_parent"
+                android:layout_height="730dp"
                 android:orientation="vertical">
     <android.support.v7.widget.Toolbar
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:background="@color/colorPrimary"
             android:theme="?attr/actionBarTheme"
+            android:layout_marginTop="0.1dp"
             android:minHeight="?attr/actionBarSize" tools:layout_editor_absoluteY="-2dp"
             android:id="@+id/barraApontamento" app:title="Apontamento"
             app:titleMarginStart="@android:dimen/app_icon_size" />
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/fab_margin"
-            android:text="Data"
-            android:textStyle="bold"
-            android:textSize="18dp"
-            android:layout_marginStart="@dimen/fab_margin"
-            android:id="@+id/labelData"  />
-    <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="40dp"
-            android:layout_marginEnd="@dimen/fab_margin"
-            android:layout_marginStart="@dimen/fab_margin"
-            android:layout_marginBottom="@dimen/fab_margin"
-            android:text="now()"
-            android:id="@+id/DataHoje"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/barraApontamento"
+                    android:text="Data"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:layout_marginStart="@dimen/fab_margin"
+                    android:id="@+id/labelData" android:layout_marginBottom="-65dp"/>
+            <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_alignBottom="@id/labelData" android:layout_marginEnd="@dimen/fab_margin"
+                    android:layout_marginBottom="-38dp"
+                    android:layout_marginRight="@dimen/fab_margin"
+                    android:text="now()"
+                    android:id="@+id/DataHoje" android:layout_marginTop="@dimen/fab_margin"
+                    android:layout_marginStart="@dimen/fab_margin"/>
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/fab_margin"
+            android:layout_alignBottom="@id/DataHoje"
+            android:layout_marginBottom="-38dp"
             android:text="Funcionario"
             android:textStyle="bold"
             android:textSize="18dp"
@@ -56,16 +59,18 @@
     <Spinner
             android:layout_width="fill_parent"
             android:layout_height="40dp"
-            android:layout_marginEnd="@dimen/fab_margin"
+            android:layout_alignBottom="@id/labelFuncionario"
+            android:layout_marginBottom="-38dp"
             android:layout_marginStart="@dimen/fab_margin"
-            android:layout_marginBottom="@dimen/fab_margin"
+            android:layout_marginEnd="@dimen/fab_margin"
             android:text="Funcionario"
             android:id="@+id/Funcionario" />
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/fab_margin"
+            android:layout_alignBottom="@id/Funcionario"
+            android:layout_marginBottom="-65dp"
             android:text="Registro de Horario"
             android:textStyle="bold"
             android:textSize="18dp"
@@ -75,49 +80,55 @@
     <Spinner
             android:layout_width="fill_parent"
             android:layout_height="40dp"
-            android:layout_marginEnd="@dimen/fab_margin"
+            android:layout_alignBottom="@id/labelRegistro"
+            android:layout_marginBottom="-38dp"
             android:layout_marginStart="@dimen/fab_margin"
-            android:layout_marginBottom="@dimen/fab_margin"
+            android:layout_marginEnd="@dimen/fab_margin"
             android:text="Registro de Horario"
             android:entries="@array/registro_array"
             android:id="@+id/Registro"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/fab_margin"
+            android:layout_alignBottom="@id/Registro"
+            android:layout_marginBottom="-65dp"
+            android:layout_marginStart="@dimen/fab_margin"
             android:text="Local"
             android:textStyle="bold"
             android:textSize="18dp"
-            android:layout_marginStart="@dimen/fab_margin"
             android:id="@+id/labelLocal"/>
     <EditText
             android:layout_width="fill_parent"
             android:layout_height="40dp"
+            android:layout_alignBottom="@id/labelLocal"
+            android:layout_marginBottom="-38dp"
+            android:layout_marginStart="@dimen/fab_margin"
             android:layout_marginEnd="@dimen/fab_margin"
-            android:layout_marginStart="@dimen/fab_margin"
-            android:layout_marginBottom="@dimen/fab_margin"
             android:id="@+id/Local"/>
-    <Button
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="@dimen/fab_margin"
-            android:text="Cancelar"
-            android:layout_marginVertical="90dp"
-            android:textStyle="bold"
-            android:textSize="18dp"
-            android:layout_marginStart="@dimen/fab_margin"
-            android:id="@+id/Cancelar"/>
-    <Button
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="@dimen/fab_margin"
-            android:text="Salvar"
-            android:layout_marginVertical="01dp"
-            android:layout_marginRight="@dimen/fab_margin"
-            android:textStyle="bold"
-            android:textSize="18dp"
-            android:layout_marginStart="@dimen/fab_margin"
-            android:id="@+id/Salvar"/>
-        </LinearLayout>
+            <Button
+                    android:layout_width="180dp"
+                    android:layout_height="50dp"
+                    android:text="Cancelar"
+                    android:clickable="true"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:layout_alignBottom="@id/Local"
+                    android:layout_marginBottom="-105dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="@dimen/fab_margin"
+                    android:id="@+id/Cancelar"/>
+            <Button
+                    android:layout_width="180dp"
+                    android:layout_height="50dp"
+                    android:layout_alignBottom="@id/Local"
+                    android:layout_marginBottom="-105dp"
+                    android:layout_toEndOf="@id/Cancelar"
+                    android:text="Salvar"
+                    android:clickable="true"
+                    android:layout_marginTop="1dp"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:id="@+id/Salvar" android:layout_marginEnd="-204dp"/>
+        </RelativeLayout>
     </ScrollView>
-</LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "153088539805",
+    "firebase_url": "https://pontoeletronico2aj.firebaseio.com",
+    "project_id": "pontoeletronico2aj",
+    "storage_bucket": "pontoeletronico2aj.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:153088539805:android:df7aa41b6d17ab6f",
+        "android_client_info": {
+          "package_name": "com.example.pontoeletroniconew"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "153088539805-1m30g69an1o9br04al5ok8hajjrok81h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pontoeletroniconew",
+            "certificate_hash": "6b00829981db9be3ca1a7269c9c63a4b664ca8ce"
+          }
+        },
+        {
+          "client_id": "153088539805-570cpu3f3l2hpi0v852g981k7b9m5o52.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYQHUIqzN3uBJIYOCZrGxOq6FcWSSkE3E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "153088539805-570cpu3f3l2hpi0v852g981k7b9m5o52.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
