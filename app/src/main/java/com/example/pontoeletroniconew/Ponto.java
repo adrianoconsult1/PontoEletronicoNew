@@ -26,6 +26,7 @@ public class Ponto {
     private String LOCALEXTRA;
     private String LOCALEXTRA2;
     private long ROWID;
+    private String DATACODFUNCIONATIO;
 
 
     public Ponto()
@@ -54,6 +55,7 @@ public class Ponto {
         this.LOCALEXTRA = null;
         this.LOCALEXTRA2 = null;
         this.ROWID = 0;
+        this.DATACODFUNCIONATIO = null;
 
     }
 
@@ -81,11 +83,12 @@ public class Ponto {
                 ", LOCAL4='" + LOCAL4 + '\'' +
                 ", LOCALEXTRA='" + LOCALEXTRA + '\'' +
                 ", LOCALEXTRA2='" + LOCALEXTRA2 + '\'' +
-                ", ROWID=" + ROWID +
+                ", ROWID=" + ROWID + '\'' +
+                ", DATACODFUNCIONATIO=" + DATACODFUNCIONATIO +
                 '}';
     }
 
-    public Ponto(String APONT1, String APONT2, String APONT3, String APONT4, long CODFUNCIONATIO, String DATA , String DESCRICAO , String GPS1, String GPS2, String GPS3, String GPS4, String GPSEXTRA, String GPSEXTRA2, String APONTEXTRA, String APONTEXTRA2, String LOCAL1, String LOCAL2, String LOCAL3, String LOCAL4, String LOCALEXTRA, String LOCALEXTRA2, long ROWID) {
+    public Ponto(String APONT1, String APONT2, String APONT3, String APONT4, long CODFUNCIONATIO, String DATA , String DESCRICAO , String GPS1, String GPS2, String GPS3, String GPS4, String GPSEXTRA, String GPSEXTRA2, String APONTEXTRA, String APONTEXTRA2, String LOCAL1, String LOCAL2, String LOCAL3, String LOCAL4, String LOCALEXTRA, String LOCALEXTRA2, long ROWID, String DATACODFUNCIONATIO) {
 
 
         this.APONT1 = APONT1;
@@ -110,6 +113,7 @@ public class Ponto {
         this.LOCALEXTRA = LOCALEXTRA;
         this.LOCALEXTRA2 = LOCALEXTRA2;
         this.ROWID = ROWID;
+        this.DATACODFUNCIONATIO = DATACODFUNCIONATIO;
 
     }
 
@@ -161,15 +165,15 @@ public class Ponto {
         this.GPSEXTRA2 = GPSEXTRA2;
     }
 
+    public String getDATACODFUNCIONATIO() { return DATACODFUNCIONATIO; }
 
+    public void setDATACODFUNCIONATIO(String DATACODFUNCIONATIO) {  this.DATACODFUNCIONATIO = DATACODFUNCIONATIO;  }
 
     public String getDATA() {
         return DATA;
     }
 
-    public void setDATA(String DATA) {
-        this.DATA = DATA;
-    }
+    public void setDATA(String DATA) { this.DATA = DATA;}
 
     public long getROWID() {
         return ROWID;

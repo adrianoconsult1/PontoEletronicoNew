@@ -329,6 +329,7 @@ public class Cadastro extends Activity implements View.OnClickListener {
         p.setROWID((long)(Math.random() * 2 * 9223372036854775.0 - 9223372036854776.0));
         p.setCODFUNCIONATIO(codFunc);
         p.setDESCRICAO(descricao);
+        p.setDATACODFUNCIONATIO(p.getDATA()+"_"+codFunc);
 
         valores = new ContentValues();
         valores.put("DATA", data);
@@ -470,6 +471,7 @@ public class Cadastro extends Activity implements View.OnClickListener {
                 p[0].setROWID(ROWIDapt);
                 p[0].setCODFUNCIONATIO(codFunc);
                 p[0].setDESCRICAO(descricao);
+                p[0].setDATACODFUNCIONATIO(p[0].getDATA()+"_"+codFunc);
 
                 if(registro == 1)
                 {

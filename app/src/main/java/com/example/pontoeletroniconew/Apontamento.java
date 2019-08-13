@@ -1,20 +1,30 @@
 package com.example.pontoeletroniconew;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.firebase.client.Firebase;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.*;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
+import static android.widget.Toast.LENGTH_LONG;
 
 
 public class Apontamento extends Activity
@@ -88,23 +98,38 @@ public class Apontamento extends Activity
             @Override
             public void onClick(View v)
             {
-                Toast.makeText(getApplicationContext(),"Apontar",Toast.LENGTH_LONG).show();
-                Intent it = new Intent(Apontamento.this, Cadastro.class);
-                it.putExtra("tipo",1);
-                it.putExtra("funcionarioApontamento",funcionario);
-                it.putExtra("dataApontamento",dataReg);
-                it.putExtra("ROWID",ROWID);
-                startActivity(it);
+                Date d = new Date();
+
+                SimpleDateFormat dia = new SimpleDateFormat("dd/MM/yyyy");
+                String cmp = dia.format(d);
+                Log.i("IfDia",cmp + " = " + data.getText());
+
+                if(cmp.equals(data.getText())) {
+                    Toast.makeText(getApplicationContext(), "Apontar", LENGTH_LONG).show();
+                    Intent it = new Intent(Apontamento.this, Cadastro.class);
+                    it.putExtra("tipo", 1);
+                    it.putExtra("funcionarioApontamento", funcionario);
+                    it.putExtra("dataApontamento", dataReg);
+                    it.putExtra("ROWID", ROWID);
+                    startActivity(it);
+                }
+                else
+                {
+                    ErrorAlert al = new ErrorAlert(Apontamento.this);
+                    al.showErrorDialog("Apontamento Dia Anterior","O Sistema não permite apontamento de uma data retroativa");
+
+
+                }
             }
         });
 
-        SQLiteDatabase banco = new DatabaseHelper(getApplicationContext()).getWritableDatabase();
+       /* SQLiteDatabase banco = new DatabaseHelper(getApplicationContext()).getWritableDatabase();
 
         Cursor cursor = banco.rawQuery(queryItem(dataReg,funcionario), null);
-        cursor.moveToFirst();
+        cursor.moveToFirst(); */
 
-
-
+        preencheApontamento(dataReg,funcionario);
+/*
         data.setText(cursor.getString(0));
         func.setText(cursor.getString(1));
         hora1.setText(cursor.getString(2));
@@ -121,7 +146,91 @@ public class Apontamento extends Activity
         localextra2.setText(cursor.getString(13));
         ROWID = cursor.getLong(20);
 
-        Toast.makeText(this,""+ROWID, Toast.LENGTH_LONG).show();
+        Toast.makeText(this,""+ROWID, Toast.LENGTH_LONG).show(); */
+
+
+    }
+
+
+    public String retornaHora(String apont)
+    {
+        String hora = null;
+
+        if(apont == null)
+        {
+            hora = "";
+        }
+        else
+        {
+            SimpleDateFormat entrada = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            Date c = null;
+            SimpleDateFormat format = new SimpleDateFormat("kk:mm:ss");
+            try {
+                c = (Date) entrada.parse(apont);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if(c != null) {
+                hora = format.format(c);
+            }
+            else
+            {
+                hora = "                ";
+            }
+            Log.i("HoraRetornada",""+hora);
+        }
+
+        return hora;
+    }
+
+    public void preencheApontamento(String dia, int codFuncionario)
+    {
+        final Ponto[] p = {new Ponto()};
+
+        Firebase.setAndroidContext(this);
+        FirebaseApp.initializeApp(getApplicationContext());
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        final DatabaseReference myRef = database.getReference();
+        myRef.keepSynced(true);
+
+        Query q = myRef.child("apontamentos").orderByChild("datacodfuncionatio").equalTo(dia+"_"+codFuncionario);
+        q.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot objSnapshot : dataSnapshot.getChildren())
+                {
+                    Ponto pt = objSnapshot.getValue(Ponto.class);
+                    p[0] = pt;
+                }
+                Log.i("PontoRec",p[0].toString());
+
+                data.setText(p[0].getDATA());
+                func.setText(p[0].getDESCRICAO());
+                hora1.setText(retornaHora(p[0].getAPONT1()));
+                hora2.setText(retornaHora(p[0].getAPONT2()));
+                hora3.setText(retornaHora(p[0].getAPONT3()));
+                hora4.setText(retornaHora(p[0].getAPONT4()));
+                horaextra.setText(retornaHora(p[0].getAPONTEXTRA()));
+                horaextra2.setText(retornaHora(p[0].getAPONTEXTRA2()));
+                local1.setText(p[0].getLOCAL1());
+                local2.setText(p[0].getLOCAL2());
+                local3.setText(p[0].getLOCAL3());
+                local4.setText(p[0].getLOCAL4());
+                localextra.setText(p[0].getLOCALEXTRA());
+                localextra2.setText(p[0].getLOCALEXTRA2());
+                ROWID = p[0].getROWID();
+
+
+                Toast.makeText(getApplicationContext(),""+ROWID, LENGTH_LONG).show();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
     }

@@ -1,5 +1,11 @@
 package com.example.pontoeletroniconew;
 
+import android.util.Log;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Funcionario {
 
     private int CODFUNCIONATIO;
@@ -72,6 +78,8 @@ public class Funcionario {
     public String getATIVO() { return ATIVO; }
 
     public void setATIVO(String ATIVO) {  this.ATIVO = ATIVO;  }
+
+
 
     @Override
     public String toString() {
