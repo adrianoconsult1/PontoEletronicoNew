@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                              xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-                                             android:layout_height="match_parent">
+                                             android:layout_height="match_parent" android:background="@drawable/bghex2">
     <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" tools:layout_editor_absoluteY="55dp" tools:layout_editor_absoluteX="368dp"
             tools:ignore="MissingConstraints">
         <android.support.constraint.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
-                      android:orientation="vertical">
+                      android:orientation="vertical" >
 
 
     <TextView
             android:text="-23.56444, -25.444778"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:attr/selectableItemBackground"
             android:id="@+id/localExtra2Dt" android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" tools:ignore="MissingConstraints"
             app:layout_constraintTop_toBottomOf="@+id/localExtra2"
@@ -51,6 +54,9 @@
             android:text="-22.56444, -24.444778"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:attr/selectableItemBackground"
             android:id="@+id/localExtraDt" android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" tools:ignore="MissingConstraints"
             app:layout_constraintTop_toBottomOf="@+id/localExtra"
@@ -104,6 +110,9 @@
             android:text="-27.56444, -29.444778"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:attr/selectableItemBackground"
             android:id="@+id/local4Dt" android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" tools:ignore="MissingConstraints"
             app:layout_constraintTop_toBottomOf="@+id/local4" app:layout_constraintStart_toEndOf="@+id/horario4Dt"
@@ -126,6 +135,9 @@
             android:text="-26.56444, -28.444778"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:attr/selectableItemBackground"
             android:id="@+id/local3Dt" android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" tools:ignore="MissingConstraints"
             app:layout_constraintTop_toBottomOf="@+id/local3" app:layout_constraintStart_toEndOf="@+id/horario3Dt"
@@ -134,14 +146,21 @@
             android:text="-24.56444, -26.444778"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:attr/selectableItemBackground"
             android:id="@+id/local1Dt" android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" tools:ignore="MissingConstraints"
-            app:layout_constraintTop_toBottomOf="@+id/local1lb" app:layout_constraintStart_toEndOf="@+id/horario1Dt"
+            app:layout_constraintTop_toBottomOf="@+id/local1lb"
+            app:layout_constraintStart_toEndOf="@+id/horario1Dt"
             android:layout_marginStart="51dp"/>
     <TextView
             android:text="-25.56444, -27.444778"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:attr/selectableItemBackground"
             android:id="@+id/local2Dt" android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" tools:ignore="MissingConstraints"
             app:layout_constraintTop_toBottomOf="@+id/Local2" app:layout_constraintStart_toEndOf="@+id/horario2Dt"
@@ -184,7 +203,15 @@
             android:id="@+id/dataLb" tools:ignore="MissingConstraints"
             android:layout_marginTop="24dp" app:layout_constraintTop_toBottomOf="@+id/barraPontoItem"
             app:layout_constraintStart_toStartOf="parent"/>
-    <TextView
+            <TextView
+                    android:text="01/01/1999"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:id="@+id/dataDt" android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" tools:ignore="MissingConstraints"
+                    app:layout_constraintTop_toBottomOf="@+id/dataLb" app:layout_constraintStart_toStartOf="parent"/>
+            <TextView
             android:text="Funcionario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -192,14 +219,6 @@
             android:id="@+id/funcionarioLb" tools:ignore="MissingConstraints"
             android:layout_marginTop="20dp" app:layout_constraintTop_toBottomOf="@+id/dataDt"
             app:layout_constraintStart_toStartOf="parent"/>
-    <TextView
-            android:text="01/01/1999"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:id="@+id/dataDt" android:textStyle="bold"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" tools:ignore="MissingConstraints"
-            app:layout_constraintTop_toBottomOf="@+id/dataLb" app:layout_constraintStart_toStartOf="parent"/>
     <TextView
             android:text="Horario_2"
             android:layout_width="wrap_content"

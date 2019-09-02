@@ -55,6 +55,15 @@ public class Apontamento extends Activity
     private String local2Dt;
     private String local3Dt;
 
+    private String gps1;
+    private String gps2;
+    private String gps3;
+    private String gps4;
+
+
+
+    private String gpsextra;
+    private String gpsextra2;
     private String local4Dt;
     private String localextraDt;
     private String localextra2Dt;
@@ -92,6 +101,107 @@ public class Apontamento extends Activity
         localextra  = (TextView) findViewById(R.id.localExtraDt);
         localextra2 = (TextView) findViewById(R.id.localExtra2Dt);
         floatButton = (ImageButton) findViewById(R.id.floatingActionButton);
+
+        local1.setClickable(true);
+        local2.setClickable(true);
+        local3.setClickable(true);
+        local4.setClickable(true);
+        localextra.setClickable(true);
+        localextra2.setClickable(true);
+
+        local1.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Localização", LENGTH_LONG).show();
+                Intent it = new Intent(Apontamento.this, LocalizacaoPonto.class);
+                it.putExtra("data",data.getText());
+                it.putExtra("funcionario",func.getText());
+                it.putExtra("hora",hora1.getText());
+                it.putExtra("local",local1.getText());
+                it.putExtra("rowid",ROWID);
+                it.putExtra("codfun",funcionario);
+                it.putExtra("gps",gps1);
+                startActivity(it);
+
+            }
+        });
+
+        local2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Localização", LENGTH_LONG).show();
+                Intent it = new Intent(Apontamento.this, LocalizacaoPonto.class);
+                it.putExtra("data",data.getText());
+                it.putExtra("funcionario",func.getText());
+                it.putExtra("hora",hora2.getText());
+                it.putExtra("local",local2.getText());
+                it.putExtra("rowid",ROWID);
+                it.putExtra("codfun",funcionario);
+                it.putExtra("gps",gps2);
+                startActivity(it);
+            }
+        });
+
+        local3.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Localização", LENGTH_LONG).show();
+                Intent it = new Intent(Apontamento.this, LocalizacaoPonto.class);
+                it.putExtra("data",data.getText());
+                it.putExtra("funcionario",func.getText());
+                it.putExtra("hora",hora3.getText());
+                it.putExtra("local",local3.getText());
+                it.putExtra("rowid",ROWID);
+                it.putExtra("codfun",funcionario);
+                it.putExtra("gps",gps3);
+                startActivity(it);
+            }
+        });
+        local4.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Localização", LENGTH_LONG).show();
+                Intent it = new Intent(Apontamento.this, LocalizacaoPonto.class);
+                it.putExtra("data",data.getText());
+                it.putExtra("funcionario",func.getText());
+                it.putExtra("hora",hora4.getText());
+                it.putExtra("local",local4.getText());
+                it.putExtra("rowid",ROWID);
+                it.putExtra("codfun",funcionario);
+                it.putExtra("gps",gps4);
+                startActivity(it);
+            }
+        });
+        localextra.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Localização", LENGTH_LONG).show();
+                Intent it = new Intent(Apontamento.this, LocalizacaoPonto.class);
+                it.putExtra("data",data.getText());
+                it.putExtra("funcionario",func.getText());
+                it.putExtra("hora",horaextra.getText());
+                it.putExtra("local",localextra.getText());
+                it.putExtra("rowid",ROWID);
+                it.putExtra("codfun",funcionario);
+                it.putExtra("gps",gpsextra);
+                startActivity(it);
+            }
+        });
+        localextra2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Localização", LENGTH_LONG).show();
+                Intent it = new Intent(Apontamento.this, LocalizacaoPonto.class);
+                it.putExtra("data",data.getText());
+                it.putExtra("funcionario",func.getText());
+                it.putExtra("hora",horaextra2.getText());
+                it.putExtra("local",localextra2.getText());
+                it.putExtra("rowid",ROWID);
+                it.putExtra("codfun",funcionario);
+                it.putExtra("gps",gpsextra2);
+                startActivity(it);
+            }
+        });
 
         floatButton.setOnClickListener(new View.OnClickListener()
         {
@@ -220,7 +330,12 @@ public class Apontamento extends Activity
                 localextra.setText(p[0].getLOCALEXTRA());
                 localextra2.setText(p[0].getLOCALEXTRA2());
                 ROWID = p[0].getROWID();
-
+                gps1 = p[0].getGPS1();
+                gps2 = p[0].getGPS2();
+                gps3 = p[0].getGPS3();
+                gps4 = p[0].getGPS4();
+                gpsextra = p[0].getGPSEXTRA();
+                gpsextra2 = p[0].getGPSEXTRA2();
 
                 Toast.makeText(getApplicationContext(),""+ROWID, LENGTH_LONG).show();
 
@@ -233,6 +348,54 @@ public class Apontamento extends Activity
         });
 
 
+    }
+
+    public String getGps1() {
+        return gps1;
+    }
+
+    public void setGps1(String gps1) {
+        this.gps1 = gps1;
+    }
+
+    public String getGps2() {
+        return gps2;
+    }
+
+    public void setGps2(String gps2) {
+        this.gps2 = gps2;
+    }
+
+    public String getGps3() {
+        return gps3;
+    }
+
+    public void setGps3(String gps3) {
+        this.gps3 = gps3;
+    }
+
+    public String getGps4() {
+        return gps4;
+    }
+
+    public void setGps4(String gps4) {
+        this.gps4 = gps4;
+    }
+
+    public String getGpsextra() {
+        return gpsextra;
+    }
+
+    public void setGpsextra(String gpsextra) {
+        this.gpsextra = gpsextra;
+    }
+
+    public String getGpsextra2() {
+        return gpsextra2;
+    }
+
+    public void setGpsextra2(String gpsextra2) {
+        this.gpsextra2 = gpsextra2;
     }
 
     public String queryItem(String data, int funcionario)

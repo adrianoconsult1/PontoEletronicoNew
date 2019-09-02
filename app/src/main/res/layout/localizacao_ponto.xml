@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools">
+    <android.support.v7.widget.Toolbar
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:theme="?attr/actionBarTheme"
+            android:minHeight="?attr/actionBarSize" tools:layout_editor_absoluteY="-2dp"
+            tools:layout_editor_absoluteX="8dp" android:id="@+id/barraPontoItem" app:title="Localização Ponto"
+            android:textAlignment="center" app:titleMarginStart="@android:dimen/notification_large_icon_width"
+            app:titleMargin="15dp" tools:ignore="MissingConstraints"/>
+    <TextView
+            android:text="Data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:id="@+id/dataLb" tools:ignore="MissingConstraints"
+            android:layout_marginTop="24dp" app:layout_constraintTop_toBottomOf="@+id/barraPontoItem"
+            app:layout_constraintStart_toStartOf="parent"/>
+    <TextView
+            android:text="01/01/1999"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:id="@+id/dataDt" android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" tools:ignore="MissingConstraints"
+            app:layout_constraintTop_toBottomOf="@+id/dataLb" app:layout_constraintStart_toStartOf="parent"/>
+    <TextView
+            android:text="Funcionario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:id="@+id/funcionarioLb" tools:ignore="MissingConstraints"
+            android:layout_marginTop="20dp" app:layout_constraintTop_toBottomOf="@+id/dataDt"
+            app:layout_constraintStart_toStartOf="parent"/>
+    <TextView
+            android:text="Funcionário da Silva teste"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:id="@+id/funcionarioDt" android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" tools:ignore="MissingConstraints"
+            app:layout_constraintTop_toBottomOf="@+id/funcionarioLb" app:layout_constraintStart_toStartOf="parent"/>
+    <TextView
+            android:text="08:00:00"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/horario1Dt" android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" tools:ignore="MissingConstraints"
+            app:layout_constraintTop_toBottomOf="@+id/horario1Lb" android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="parent"/>
+    <TextView
+            android:text="Horario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/horario1Lb" tools:ignore="MissingConstraints"
+            android:layout_marginTop="20dp" app:layout_constraintTop_toBottomOf="@+id/funcionarioDt"
+            android:layout_marginStart="16dp" app:layout_constraintStart_toStartOf="parent"/>
+    <TextView
+            android:text="Local"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/local1lb" tools:ignore="MissingConstraints"
+            android:layout_marginTop="20dp" app:layout_constraintTop_toBottomOf="@+id/funcionarioDt"
+            app:layout_constraintStart_toEndOf="@+id/horario1Lb" android:layout_marginStart="76dp"/>
+    <TextView
+            android:text="-24.56444, -26.444778"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/local1Dt" android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" tools:ignore="MissingConstraints"
+            app:layout_constraintTop_toBottomOf="@+id/local1lb"
+            app:layout_constraintStart_toEndOf="@+id/horario1Dt"
+            android:layout_marginStart="51dp"/>
+
+
+</android.support.constraint.ConstraintLayout>
