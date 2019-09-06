@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                              android:layout_width="match_parent"
                                              android:layout_height="match_parent"
+                                             android:background="@drawable/bghex2"
                                              xmlns:app="http://schemas.android.com/apk/res-auto"
                                              xmlns:tools="http://schemas.android.com/tools">
-    <android.support.v7.widget.Toolbar
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            android:theme="?attr/actionBarTheme"
-            android:minHeight="?attr/actionBarSize" tools:layout_editor_absoluteY="-2dp"
-            tools:layout_editor_absoluteX="8dp" android:id="@+id/barraPontoItem" app:title="Localização Ponto"
-            android:textAlignment="center" app:titleMarginStart="@android:dimen/notification_large_icon_width"
-            app:titleMargin="15dp" tools:ignore="MissingConstraints"/>
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" tools:layout_editor_absoluteY="55dp" tools:layout_editor_absoluteX="368dp"
+        tools:ignore="MissingConstraints">
+        <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bghex2"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools">
     <TextView
-            android:text="Data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:id="@+id/dataLb" tools:ignore="MissingConstraints"
-            android:layout_marginTop="24dp" app:layout_constraintTop_toBottomOf="@+id/barraPontoItem"
-            app:layout_constraintStart_toStartOf="parent"/>
+        android:id="@+id/dataLb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Data"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
     <TextView
             android:text="01/01/1999"
             android:layout_width="wrap_content"
@@ -67,15 +70,33 @@
             android:id="@+id/local1lb" tools:ignore="MissingConstraints"
             android:layout_marginTop="20dp" app:layout_constraintTop_toBottomOf="@+id/funcionarioDt"
             app:layout_constraintStart_toEndOf="@+id/horario1Lb" android:layout_marginStart="76dp"/>
+
     <TextView
-            android:text="-24.56444, -26.444778"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/local1Dt" android:textStyle="bold"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" tools:ignore="MissingConstraints"
-            app:layout_constraintTop_toBottomOf="@+id/local1lb"
-            app:layout_constraintStart_toEndOf="@+id/horario1Dt"
-            android:layout_marginStart="51dp"/>
+        android:id="@+id/local1Dt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:text="-24.56444, -26.444778"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/horario1Dt"
+        app:layout_constraintTop_toBottomOf="@+id/local1lb"
+        tools:ignore="MissingConstraints" />
 
+    <com.google.android.gms.maps.MapView
+        android:layout_width="fill_parent"
+        android:layout_height="430dp" tools:ignore="MissingConstraints"
+        android:id="@+id/mapa"
+        android:enabled="true"
+        android:background="@drawable/btnarredondar"
+        android:clickable="true"
+        android:apiKey="AIzaSyAtDxz8L8Kc5zyV5DURrgIh96RjVa2en20"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp" app:layout_constraintTop_toBottomOf="@+id/local1Dt"
+        tools:layout_editor_absoluteX="66dp">
+    </com.google.android.gms.maps.MapView>
 
-</android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

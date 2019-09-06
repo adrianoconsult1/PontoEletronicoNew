@@ -9,11 +9,18 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.*;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
+
+
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+
 import com.firebase.client.Firebase;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.*;
@@ -27,12 +34,13 @@ import java.util.*;
 
 import static java.text.SimpleDateFormat.*;
 
-public class Cadastro extends Activity implements View.OnClickListener {
+public class Cadastro extends AppCompatActivity implements View.OnClickListener {
 
     private static final int REQUEST_LOCATION = 1;
     private TextView hoje;
     private Spinner funcionario;
     private Button btnSalvar;
+    private Button btnCancelar;
     private EditText local;
     private double latitude;
     private double longitude;
@@ -55,6 +63,9 @@ public class Cadastro extends Activity implements View.OnClickListener {
         d = null;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cadastro_main);
+        setTitle("Apontamento");
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -98,10 +109,31 @@ public class Cadastro extends Activity implements View.OnClickListener {
         reg = (Spinner) findViewById(R.id.Registro);
         loadSpinnerData(tipo);
         btnSalvar = (Button) findViewById(R.id.Salvar);
+        btnCancelar = (Button) findViewById(R.id.Cancelar);
+        btnCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                local.setText("");
+                funcionario.setSelection(0);
+                reg.setSelection(0);
+            }
+        });
         btnSalvar.setOnClickListener(this);
         registro = Integer.parseInt(String.valueOf(reg.getSelectedItem().toString().charAt(0)));
         Log.i("SpinnerRegistro", "" + registro);
 
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        int id = item.getItemId();
+
+        if(id == android.R.id.home)
+        {
+          this.finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void loadSpinnerData(final int tipo) {

@@ -8,13 +8,17 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.firebase.client.Firebase;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.*;
@@ -27,7 +31,7 @@ import java.text.SimpleDateFormat;
 import static android.widget.Toast.LENGTH_LONG;
 
 
-public class Apontamento extends Activity
+public class Apontamento extends AppCompatActivity
 {
     private TextView data;
     private TextView func;
@@ -77,6 +81,10 @@ public class Apontamento extends Activity
         setContentView(R.layout.ponto_item);
         Intent intent = getIntent();
         savedInstanceState = intent.getExtras();
+        setTitle("Ponto");
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         dataReg  = savedInstanceState.getString("formatada");
         funcionario = savedInstanceState.getInt("funcionario");
@@ -261,6 +269,17 @@ public class Apontamento extends Activity
 
     }
 
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        int id = item.getItemId();
+
+        if(id == android.R.id.home)
+        {
+            this.finish();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     public String retornaHora(String apont)
     {

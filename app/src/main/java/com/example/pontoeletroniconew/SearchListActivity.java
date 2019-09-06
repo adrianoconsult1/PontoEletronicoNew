@@ -4,9 +4,8 @@ import android.content.AsyncQueryHandler;
 import android.content.ContentValues;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.DisplayMetrics;
+import android.view.MenuItem;
 import android.widget.ExpandableListView;
 
 import java.text.ParseException;
@@ -19,6 +18,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.widget.*;
 import com.firebase.client.Firebase;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.*;
 import com.google.firebase.firestore.model.SnapshotVersion;
@@ -31,11 +31,20 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toolbar;
+
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import static java.lang.Thread.sleep;
 
 
-public class SearchListActivity extends Activity {
+public class SearchListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private ExpandableListView listView;
@@ -51,12 +60,31 @@ public class SearchListActivity extends Activity {
     private TreeSet<Date> cabs = new TreeSet<Date>();
     private ArrayList<String> ord = new ArrayList<String>();
     private SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private androidx.appcompat.widget.Toolbar toolbar;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
         setContentView(R.layout.lista_apontamentos);
+        setTitle("Ponto Eletrônico");
+
+        toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.barraMain);
+
+        setSupportActionBar(toolbar);
+
+        navigationView = (NavigationView) findViewById(R.id.navView);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_drawer, R.string.close_drawer);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+
+
          swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.Swipe);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -74,7 +102,8 @@ public class SearchListActivity extends Activity {
         swipeRefreshLayout.setColorScheme(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
+                android.R.color.holo_red_light,
+                android.R.color.holo_purple);
 
         source = new ApontamentoDataSource(getApplicationContext());
         DisplayMetrics metrics = new DisplayMetrics();
@@ -157,7 +186,7 @@ public class SearchListActivity extends Activity {
         }
         catch (Exception e)
         {
-           Toast.makeText(getApplicationContext(),"Erro Firebase",Toast.LENGTH_LONG).show();
+           Toast.makeText(getApplicationContext(),"Atualizado",Toast.LENGTH_LONG).show();
         }
         final DatabaseReference myRef = database.getReference();
         myRef.keepSynced(true);
@@ -365,4 +394,45 @@ public class SearchListActivity extends Activity {
 
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_item_one: {
+                Toast.makeText(this, "Menu 1", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case R.id.nav_item_two: {
+                Toast.makeText(this, "Menu 2", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case R.id.nav_item_three: {
+                Toast.makeText(this, "Menu 3", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case R.id.nav_item_four: {
+                Toast.makeText(this, "Menu 4", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            default: {
+                Toast.makeText(this, "Menu Default", Toast.LENGTH_SHORT).show();
+                break;
+            }
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
 }
