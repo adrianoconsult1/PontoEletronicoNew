@@ -401,18 +401,6 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
                 Toast.makeText(this, "Menu 1", Toast.LENGTH_SHORT).show();
                 break;
             }
-            case R.id.nav_item_two: {
-                Toast.makeText(this, "Menu 2", Toast.LENGTH_SHORT).show();
-                break;
-            }
-            case R.id.nav_item_three: {
-                Toast.makeText(this, "Menu 3", Toast.LENGTH_SHORT).show();
-                break;
-            }
-            case R.id.nav_item_four: {
-                Toast.makeText(this, "Menu 4", Toast.LENGTH_SHORT).show();
-                break;
-            }
             default: {
                 Toast.makeText(this, "Menu Default", Toast.LENGTH_SHORT).show();
                 break;

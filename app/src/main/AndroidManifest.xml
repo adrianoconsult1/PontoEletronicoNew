@@ -42,7 +42,6 @@
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.CALL" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
@@ -52,7 +51,6 @@
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.CALL" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
@@ -62,7 +60,6 @@
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.CALL" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
