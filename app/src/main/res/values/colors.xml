@@ -5,4 +5,7 @@
     <color name="colorAccent">#2196F3</color>
     <color name="white">#FFFFFF</color>
     <color name="cinza">#BFD1D0D0</color>
+    <color name="contact_name">#333333</color>
+
+    <color name="contact_number">#8c8c8c</color>
 </resources>

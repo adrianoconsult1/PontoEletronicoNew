@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.ExpandableListView;
 
 import java.text.ParseException;
@@ -18,6 +20,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.widget.*;
 import com.firebase.client.Firebase;
+import com.firebase.client.annotations.Nullable;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.*;
@@ -63,11 +67,13 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private androidx.appcompat.widget.Toolbar toolbar;
+    private Bundle b = new Bundle();
+    String dayLast = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+        b = savedInstanceState;
         setContentView(R.layout.lista_apontamentos);
         setTitle("Ponto Eletrônico");
 
@@ -89,13 +95,26 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                initData();
+                drawerLayout.refreshDrawableState();
+                listAdapter.notifyDataSetChanged();
+
+                Toast.makeText(getApplicationContext(),"Refresh",Toast.LENGTH_LONG).show();
+                Intent it = new Intent(SearchListActivity.this, SearchListActivity.class);
+                it.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY );
+                startActivity(it);
+
+                // initData();
+
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
                     }
                 },4000);
+
+
+
+
             }
         });
 
@@ -112,7 +131,9 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
         int width = metrics.widthPixels;
 
         listView.setIndicatorBounds(width - GetDipsFromPixel(50), width - 40);
-
+        int resId = R.anim.layout_animation_fall_down;
+        LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(getApplicationContext(), resId);
+        listView.setLayoutAnimation(animation);
 
 
 
@@ -129,7 +150,15 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
                 {
                    Toast.makeText(getApplicationContext(),"Apontar",Toast.LENGTH_LONG).show();
                    Intent it = new Intent(SearchListActivity.this, Cadastro.class);
+                   //incluir lista de pessoas apontadas no dia coomo put extra, verificar se to primeiro item da arvore é o dia atual mesmo
+                   // cuidar para que esteja atualizado os aponts
                    it.putExtra("tipo",0);
+                   SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                   List<String> a = new ArrayList<>();
+                   a = source.apontamentosDoDia(format.format(Calendar.getInstance().getTime()));
+                   it.putStringArrayListExtra ("funcApontados",(ArrayList<String>) a);
+                   Log.i("funcApontados",format.format(Calendar.getInstance().getTime())+"   "+a.toString());
+
                    startActivity(it);
                 }
             });
@@ -171,6 +200,10 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
         return (int) (pixels * scale + 0.5f);
     }
 
+
+
+
+
     private void initData() {
         pontos.clear();
         aux.clear();
@@ -186,7 +219,7 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
         }
         catch (Exception e)
         {
-           Toast.makeText(getApplicationContext(),"Atualizado",Toast.LENGTH_LONG).show();
+          //  Toast.makeText(getApplicationContext(),"Fire Off",Toast.LENGTH_LONG).show();
         }
         final DatabaseReference myRef = database.getReference();
         myRef.keepSynced(true);
@@ -326,9 +359,22 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
 
                 }
                 Log.i("ListFire",pontos.toString());
+                Log.i("FireRoundPre",""+listDataHeader.size());
 
-                listAdapter = new ExpandableListAdapter(getApplicationContext(),listDataHeader,listHash);
+                List<String> keys = new ArrayList<>(listHash.keySet());
+                Log.i("FireRoundListDataHeader",""+ keys.get(0) );
+                getUltimoDiaApont(new MyCallback() {
+                    @Override
+                    public void onCallback(String value) {
+                        Log.i("FireRoundListMethod",""+value.toString());
+
+
+                    }
+                });
+
+                listAdapter = new ExpandableListAdapter(getApplicationContext(), listDataHeader, listHash);
                 listView.setAdapter(listAdapter);
+
                 Log.i("ListFireDps",aux.toString());
                 Log.i("ListHeaderFire2",""+qtdHeader);
 
@@ -345,7 +391,83 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
 
     }
 
-    public void apontamentoDoDiaFire(String dia)
+    public void getUltimoDiaApont(MyCallback myCallback)
+    {
+
+
+        Firebase.setAndroidContext(this);
+        FirebaseApp.initializeApp(getApplicationContext());
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        try {
+            database.setPersistenceEnabled(true);
+
+        }
+        catch (Exception e)
+        {
+            //  Toast.makeText(getApplicationContext(),"Fire Off",Toast.LENGTH_LONG).show();
+        }
+        final DatabaseReference myRef = database.getReference();
+        myRef.keepSynced(true);
+        Log.i("Referencia",""+database.getReference());
+
+        myRef.child("apontamentos").orderByChild("data").limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot objSnapshot:dataSnapshot.getChildren()) {
+                    Ponto p = objSnapshot.getValue(Ponto.class);
+                    dayLast = p.getDATA();
+                    Log.i("FireRoundDay:",dayLast);
+                    final Calendar c = Calendar.getInstance();
+                    Date d = null;
+                    try {
+                        d = f.parse(p.getDATA());
+                        c.setTime(d);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    cabs.add(c.getTime());
+                }
+                Iterator<Date> ite = cabs.descendingIterator();
+                while(ite.hasNext()) {
+                    ord.add(f.format(ite.next()));
+                }
+                dayLast = ord.get(0);
+                for(int i = 0; i < 7; i++)
+                {
+                    listHash.put(ord.get(i),source.apontamentosDoDia(ord.get(i)));
+
+                }
+                myCallback.onCallback(dayLast);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+        });
+
+
+    }
+
+    public boolean hashUpdated(String value, HashMap<String,List<String>> listAux)
+    {
+        boolean result = false;
+        List<String> keys = new ArrayList<>(listAux.keySet());
+
+        for(int i = 0; i < keys.size(); i++)
+        {
+            if(keys.get(i).equals(value) )
+            {
+                result = true;
+                i = listAux.size();
+            }
+        }
+
+        return result;
+    }
+
+    public List<String> apontamentoDoDiaFire(String dia)
     {
 
             //CountDownLatch done = new CountDownLatch(1);
@@ -391,14 +513,16 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
 
 
         Log.i("ListFireHashDps",aux.toString());
-
+        return aux;
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_item_one: {
-                Toast.makeText(this, "Menu 1", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Funcionarios", Toast.LENGTH_SHORT).show();
+                Intent it = new Intent(SearchListActivity.this, MainActivity.class);
+                startActivity(it);
                 break;
             }
             default: {
@@ -420,7 +544,28 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
     }
 
     @Override
+    public void recreate()
+    {
+        if (android.os.Build.VERSION.SDK_INT >= 11)
+        {
+            super.recreate();
+        }
+        else
+        {
+            startActivity(getIntent());
+            finish();
+        }
+    }
+
+    @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
+
+    public interface MyCallback {
+        void onCallback(String value);
+    }
+
+
+
 }

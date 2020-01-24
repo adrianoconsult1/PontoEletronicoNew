@@ -73,14 +73,14 @@
 
     <com.toptoche.searchablespinnerlibrary.SearchableSpinner
             android:layout_width="fill_parent"
-            android:layout_height="40dp"
+            android:layout_height="60dp"
             android:layout_alignBottom="@id/labelRegistro"
-            android:layout_marginBottom="-38dp"
+            android:layout_marginBottom="-58dp"
             android:layout_marginStart="@dimen/fab_margin"
             android:layout_marginEnd="@dimen/fab_margin"
             android:text="Registro de Horario"
 
-            android:entries="@array/registro_array"
+
             android:id="@+id/Registro"/>
     <TextView
             android:layout_width="wrap_content"
@@ -95,9 +95,9 @@
             android:id="@+id/labelLocal"/>
     <EditText
             android:layout_width="fill_parent"
-            android:layout_height="40dp"
+            android:layout_height="60dp"
             android:layout_alignBottom="@id/labelLocal"
-            android:layout_marginBottom="-38dp"
+            android:layout_marginBottom="-58dp"
             android:layout_marginStart="@dimen/fab_margin"
             android:layout_marginEnd="@dimen/fab_margin"
 
@@ -105,31 +105,30 @@
 
             <Button
                 android:id="@+id/Cancelar"
-                android:layout_width="180dp"
+                android:layout_width="130dp"
                 android:layout_height="50dp"
                 android:layout_alignBottom="@id/Local"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="-105dp"
+                android:background="@drawable/btnarredondar"
                 android:clickable="true"
                 android:text="Cancelar"
-                android:background="@drawable/btnarredondar"
-                android:textSize="18dp"
-                 />
+                android:textSize="18dp" />
 
             <Button
                 android:id="@+id/Salvar"
-                android:layout_width="180dp"
+                android:layout_width="130dp"
                 android:layout_height="50dp"
                 android:layout_alignBottom="@id/Local"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="-105dp"
+                android:background="@drawable/btnarredondar"
+
                 android:clickable="true"
                 android:text="Salvar"
-                android:textSize="18dp"
-
-                android:background="@drawable/btnarredondar"/>
+                android:textSize="18dp" />
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

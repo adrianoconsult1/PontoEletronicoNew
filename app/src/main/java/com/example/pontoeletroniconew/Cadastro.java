@@ -1,7 +1,6 @@
 package com.example.pontoeletroniconew;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -18,27 +17,23 @@ import android.widget.*;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 
 import com.firebase.client.Firebase;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.*;
-import kotlin.jvm.functions.FunctionN;
-import org.json.JSONException;
+
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static java.text.SimpleDateFormat.*;
-
 public class Cadastro extends AppCompatActivity implements View.OnClickListener {
 
     private static final int REQUEST_LOCATION = 1;
     private TextView hoje;
-    private Spinner funcionario;
+    private Spinner SpiFuncionario;
     private Button btnSalvar;
     private Button btnCancelar;
     private EditText local;
@@ -50,13 +45,21 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
     private String obj;
     private int registro;
     private Spinner reg;
+    private String hr1;
+    private String hr2;
+    private String hr3;
+    private String hr4;
+    private String hre1;
+    private String hre2;
     int tipo;
     private int funApontamentoActivity;
     private String dataReg;
     Date d;
     private long ROWIDapt;
     private List<String> fireFunc = new ArrayList<String>();
-
+    private List<String> apontados = new ArrayList<String>();
+    private List<String> registrosSpinner = new ArrayList<String>();
+    private List<String> regUsed = new ArrayList<String>();
     @SuppressLint("MissingPermission")
     public void onCreate(Bundle savedInstanceState) {
         codFunc = 23;
@@ -73,12 +76,20 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
         Intent intent = getIntent();
         savedInstanceState = intent.getExtras();
         tipo = savedInstanceState.getInt("tipo");
+        apontados = savedInstanceState.getStringArrayList("funcApontados");
         if (tipo == 1) {
             ROWIDapt = savedInstanceState.getLong("ROWID");
-
+            hr1 = savedInstanceState.getString("hora1");
+            hr2 = savedInstanceState.getString("hora2");
+            hr3 = savedInstanceState.getString("hora3");
+            hr4 = savedInstanceState.getString("hora4");
+            hre1 = savedInstanceState.getString("horaextra");
+            hre2 = savedInstanceState.getString("horaextra2");
+            regUsed = savedInstanceState.getStringArrayList("regUsed");
         }
         funApontamentoActivity = savedInstanceState.getInt("funcionarioApontamento");
         dataReg = savedInstanceState.getString("dataApontamento");
+
         gps = new GPSTracker(this);
         Log.i("tipo", "" + tipo);
         Log.i("funApontamentoActivity", "" + funApontamentoActivity);
@@ -105,16 +116,48 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
         } else {
             hoje.setText("" + format.format(Calendar.getInstance().getTime()));
         }
-        funcionario = (Spinner) findViewById(R.id.Funcionario);
+        SpiFuncionario = (Spinner) findViewById(R.id.Funcionario);
         reg = (Spinner) findViewById(R.id.Registro);
         loadSpinnerData(tipo);
+
+        registrosSpinner.add("1_Entrada");
+        registrosSpinner.add("2_Saída para Almoço");
+        registrosSpinner.add("3_Volta do Almoço");
+        registrosSpinner.add("4_Saída");
+        registrosSpinner.add("5_Entrada Extra");
+        registrosSpinner.add("6_Saída Extra");
+
+        Log.i("RegSpiner",registrosSpinner.size() +"  "+registrosSpinner.toString());
+        if(tipo == 1)
+        {
+            List<String> aux = new ArrayList<String>();
+            aux = regUsed;
+            Log.i("regUsedArray",aux.toString());
+            for(int i = 0; i < registrosSpinner.size(); i++)
+            {
+                for (int i2 = 0; i2 < aux.size(); i2++)
+                {
+                    if (aux.get(i2).equals(registrosSpinner.get(i)))
+                    {
+                        Log.i("regUsed","removeu: " +registrosSpinner.get(i));
+                        registrosSpinner.remove(i);
+
+                    }
+                }
+            }
+
+        }
+
+        ArrayAdapter<String> regAdapter = new ArrayAdapter<String>(Cadastro.this, android.R.layout.simple_spinner_item, registrosSpinner);
+        reg.setAdapter(regAdapter);
+
         btnSalvar = (Button) findViewById(R.id.Salvar);
         btnCancelar = (Button) findViewById(R.id.Cancelar);
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 local.setText("");
-                funcionario.setSelection(0);
+                SpiFuncionario.setSelection(0);
                 reg.setSelection(0);
             }
         });
@@ -154,7 +197,7 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
         }
         catch (Exception e)
         {
-            Toast.makeText(getApplicationContext(),"Erro Firebase",Toast.LENGTH_LONG).show();
+            // Toast.makeText(getApplicationContext(),"Erro Firebase",Toast.LENGTH_LONG).show();
         }
         final DatabaseReference myRef = database.getReference();
         myRef.keepSynced(true);
@@ -171,6 +214,8 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
 
                 for(DataSnapshot objSnapshot:dataSnapshot.getChildren()) {
                     Funcionario f = objSnapshot.getValue(Funcionario.class);
+                    // receber da activity principal lista de funcionarios para o dia atual
+                    // comparar cada objeto recebido com eles caso não seja um deles adicione na lista se não pula
                     fireFunc.add(f.getCodNome());
 
 
@@ -180,8 +225,25 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
                 //    Log.i("FuncUniq",""+ query.toString());
                 if (tipo == 0) {
                     Log.i("fireFunc: ",fireFunc.toString());
+                    Log.i("funcApontadosCad",apontados.toString());
+                    for(int i = 0; i < fireFunc.size() ; i++ )
+                    {
+                        Log.i("funcApontadosFor1","For1 rodada:" + i);
+                        for(int i2 = 0 ; i2 < apontados.size() ; i2++)
+                        {
+                            Log.i("funcApontadosFor2","For2 rodada:["+i+"][" + i2 +"]" );
+                            Log.i("funcApontadosIf", fireFunc.get(i).toString() +" == "+ apontados.get(i2).toString());
+                            if(fireFunc.get(i).equals(apontados.get(i2)))
+                            {
+                                fireFunc.remove(i);
+
+                                Log.i("funcApontadosCad","removeu: "+apontados.get(i2));
+                            }
+                        }
+                    }
                     ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(Cadastro.this, android.R.layout.simple_spinner_item, fireFunc);
-                    funcionario.setAdapter(dataAdapter);
+
+                    SpiFuncionario.setAdapter(dataAdapter);
                 }
 
 
@@ -201,7 +263,7 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
                             }
                             Log.i("fireFunc: ", fireFunc.toString());
                             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(Cadastro.this, android.R.layout.simple_spinner_item, fireFunc);
-                            funcionario.setAdapter(dataAdapter);
+                            SpiFuncionario.setAdapter(dataAdapter);
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -264,7 +326,7 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
 
         SQLiteDatabase db = new DatabaseHelper(getApplicationContext()).getWritableDatabase();
 
-        Cursor cursor = db.rawQuery("select codfuncionatio || ': ' || nome from funcionarios where codfuncionatio = "+funcionario,null);
+        Cursor cursor = db.rawQuery("select codfuncionatio || ': ' || nome from funcionarios where codfuncionatio = "+ SpiFuncionario,null);
         cursor.moveToFirst();
         String descricao = cursor.getString(0);
 
@@ -333,7 +395,7 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
 
         Cursor cursor = db.rawQuery("select codfuncionatio || ': ' || nome from funcionarios where codfuncionatio = "+funcionario,null);
         cursor.moveToFirst();
-        String descricao = cursor.getString(0);
+        String descricao = SpiFuncionario.getSelectedItem().toString();
 
         Ponto p = new Ponto();
 
@@ -597,14 +659,14 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
 
         try
         {
-            obj = new String(funcionario.getSelectedItem().toString());
+            obj = new String(SpiFuncionario.getSelectedItem().toString());
             codFunc = Integer.parseInt(obj.substring(0,3));
             Log.i("SpinnerFun",""+ codFunc);
         }
         catch (Exception e)
         {
             e.printStackTrace();
-            Log.i("SpinnerFun","deu errado "+ funcionario.getSelectedItem().toString() +"\n Cod: "+codFunc);
+            Log.i("SpinnerFun","deu errado "+ SpiFuncionario.getSelectedItem().toString() +"\n Cod: "+codFunc);
         }
 
         registro = Integer.parseInt(String.valueOf(reg.getSelectedItem().toString().charAt(0)));
@@ -646,6 +708,7 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
 
         Toast.makeText(getApplicationContext(),"Apontar",Toast.LENGTH_LONG).show();
         Intent it = new Intent(Cadastro.this, SearchListActivity.class);
+        it.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(it);
     }
 

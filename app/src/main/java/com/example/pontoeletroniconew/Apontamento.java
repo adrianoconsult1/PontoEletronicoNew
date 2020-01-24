@@ -23,10 +23,12 @@ import com.firebase.client.Firebase;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.*;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import static android.widget.Toast.LENGTH_LONG;
 
@@ -75,6 +77,7 @@ public class Apontamento extends AppCompatActivity
     private ImageButton floatButton;
     private String dataReg;
     private long ROWID;
+
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -90,7 +93,7 @@ public class Apontamento extends AppCompatActivity
         funcionario = savedInstanceState.getInt("funcionario");
         Log.i("dataReg",dataReg);
         Log.i("Funcionario",""+funcionario);
-        SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("hh:mm:ss");
 
         SimpleDateFormat formate = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -229,7 +232,41 @@ public class Apontamento extends AppCompatActivity
                     it.putExtra("funcionarioApontamento", funcionario);
                     it.putExtra("dataApontamento", dataReg);
                     it.putExtra("ROWID", ROWID);
-                    startActivity(it);
+                    List<String> regUsed = new ArrayList<String >();
+                    if (!hora1.getText().equals(""))
+                    {
+                        regUsed.add("1_Entrada");
+                    }
+                    if(!hora2.getText().equals(""))
+                    {
+                        regUsed.add("2_Saída para Almoço");
+                    }
+                    if(!hora3.getText().equals(""))
+                    {
+                        regUsed.add("3_Volta do Almoço");
+                    }
+                    if(!hora4.getText().equals(""))
+                    {
+                        regUsed.add("4_Saída");
+                    }
+                    if (!horaextra.getText().equals("")) {
+                        regUsed.add("5_Entrada Extra");
+                    }
+                    if(!horaextra2.getText().equals(""))
+                    {
+                        regUsed.add("6_Saída Extra");
+                    }
+                    it.putStringArrayListExtra("regUsed",(ArrayList<String>)regUsed);
+                    if(regUsed.size() == 6)
+                    {
+                        ErrorAlert al = new ErrorAlert(Apontamento.this);
+                        al.showErrorDialog("Apontamento Fechado","Todos Apontamentos estão Marcados, Para Alteração Contate o Administrador");
+                    }
+                    else
+                    {
+                        it.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        startActivity(it);
+                    }
                 }
                 else
                 {
@@ -247,7 +284,9 @@ public class Apontamento extends AppCompatActivity
         cursor.moveToFirst(); */
 
         preencheApontamento(dataReg,funcionario);
-/*
+
+
+        /*
         data.setText(cursor.getString(0));
         func.setText(cursor.getString(1));
         hora1.setText(cursor.getString(2));
@@ -291,9 +330,9 @@ public class Apontamento extends AppCompatActivity
         }
         else
         {
-            SimpleDateFormat entrada = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            SimpleDateFormat entrada = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date c = null;
-            SimpleDateFormat format = new SimpleDateFormat("kk:mm:ss");
+            SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
             try {
                 c = (Date) entrada.parse(apont);
             } catch (ParseException e) {
@@ -311,6 +350,8 @@ public class Apontamento extends AppCompatActivity
 
         return hora;
     }
+
+
 
     public void preencheApontamento(String dia, int codFuncionario)
     {
@@ -357,7 +398,12 @@ public class Apontamento extends AppCompatActivity
                 gpsextra2 = p[0].getGPSEXTRA2();
 
                 Toast.makeText(getApplicationContext(),""+ROWID, LENGTH_LONG).show();
-
+                Log.i("hora1",""+hora1.getText());
+                Log.i("hora2",""+hora2.getText());
+                Log.i("hora3",""+hora3.getText());
+                Log.i("hora4",""+hora4.getText());
+                Log.i("horaextra",""+horaextra.getText());
+                Log.i("horaextra2",""+horaextra2.getText());
             }
 
             @Override
