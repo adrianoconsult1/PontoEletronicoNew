@@ -1,15 +1,25 @@
 package com.example.pontoeletroniconew;
 
+import android.app.ActivityOptions;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.AsyncQueryHandler;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.ExpandableListView;
 
+import java.text.Normalizer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -69,9 +79,13 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
     private androidx.appcompat.widget.Toolbar toolbar;
     private Bundle b = new Bundle();
     String dayLast = null;
+    private static final String MY_PASSWORD_DIALOG_ID = "RHPONTOMASTER";
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
         b = savedInstanceState;
         setContentView(R.layout.lista_apontamentos);
@@ -97,13 +111,13 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
             public void onRefresh() {
                 drawerLayout.refreshDrawableState();
                 listAdapter.notifyDataSetChanged();
-
-                Toast.makeText(getApplicationContext(),"Refresh",Toast.LENGTH_LONG).show();
-                Intent it = new Intent(SearchListActivity.this, SearchListActivity.class);
+                Toast.makeText(getApplicationContext(),"Atualizando Tela Inicial ",Toast.LENGTH_LONG).show();
+             /* Intent it = new Intent(SearchListActivity.this, SearchListActivity.class);
                 it.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY );
-                startActivity(it);
+                startActivity(it); */
+                recreate();
 
-                // initData();
+               //  initData();
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -152,13 +166,14 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
                    Intent it = new Intent(SearchListActivity.this, Cadastro.class);
                    //incluir lista de pessoas apontadas no dia coomo put extra, verificar se to primeiro item da arvore é o dia atual mesmo
                    // cuidar para que esteja atualizado os aponts
-                   it.putExtra("tipo",0);
+
+                    it.putExtra("tipo",0);
                    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
                    List<String> a = new ArrayList<>();
                    a = source.apontamentosDoDia(format.format(Calendar.getInstance().getTime()));
                    it.putStringArrayListExtra ("funcApontados",(ArrayList<String>) a);
                    Log.i("funcApontados",format.format(Calendar.getInstance().getTime())+"   "+a.toString());
-
+                   it.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                    startActivity(it);
                 }
             });
@@ -184,6 +199,7 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
                 Intent it = new Intent(SearchListActivity.this, Apontamento.class);
                 it.putExtra("formatada",data);
                 it.putExtra("funcionario",func);
+                it.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(it);
 
                 return false;
@@ -200,9 +216,9 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
         return (int) (pixels * scale + 0.5f);
     }
 
-
-
-
+    public static String removerAcentos(String str) {
+        return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+    }
 
     private void initData() {
         pontos.clear();
@@ -334,8 +350,67 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
                             valores.put("LOCALEXTRA2", b.getLOCALEXTRA2());
 
                             valores.put("ROWID",b.getROWID()); */
+                               String l1;
+                               String l2;
+                               String l3;
+                               String l4;
+                               String le;
+                               String le2;
+
+                               try {
+                                   l1 = b.getLOCAL1().replace("'", " ");
+                               }
+                               catch(Exception e)
+                               {
+                                   System.out.println(e);
+                                   l1 = "";
+                               }
+
+
+                            try {
+                                l2 = b.getLOCAL2().replace("'", " ");
+                            }
+                            catch(Exception e)
+                            {
+                                System.out.println(e);
+                                l2 = "";
+                            }
+                            try {
+                                l3 = b.getLOCAL3().replace("'", " ");
+                            }
+                            catch(Exception e)
+                            {
+                                System.out.println(e);
+                                l3 = "";
+                            }
+
+                            try {
+                                l4 = b.getLOCAL4().replace("'", " ");
+                            }
+                            catch(Exception e)
+                            {
+                                System.out.println(e);
+                                l4 = "";
+                            }
+                                try {
+                                    le = b.getLOCALEXTRA().replace("'", " ");
+                                }
+                                catch(Exception e)
+                                {
+                                    System.out.println(e);
+                                    le = "";
+                                }
+                                try {
+                                    le2 = b.getLOCALEXTRA2().replace("'", " ");
+                                }
+                                catch(Exception e)
+                                {
+                                    System.out.println(e);
+                                    le2 = "";
+                                }
+
                                 String replace = "INSERT OR REPLACE INTO apontamentos (data,codfuncionatio,descricao,apont1,local1,gps1,apont2,local2,gps2,apont3,local3,gps3,apont4,local4,gps4,apontextra,localextra,gpsextra,apontextra2,localextra2,gpsextra2,ROWID,DATACODFUNCIONATIO)\n" +
-                                        "values('"+format.format(d)+" 00:00:00',"+b.getCODFUNCIONATIO()+",'"+b.getDESCRICAO()+"','"+b.getAPONT1()+"','"+b.getLOCAL1()+"','"+b.getGPS1()+"','"+b.getAPONT2()+"','"+b.getLOCAL2()+"','"+b.getGPS2()+"','"+b.getAPONT3()+"','"+b.getLOCAL3()+"','"+b.getGPS3()+"','"+b.getAPONT4()+"','"+b.getLOCAL4()+"','"+b.getGPS4()+"','"+b.getAPONTEXTRA()+"','"+b.getLOCALEXTRA()+"','"+b.getGPSEXTRA()+"','"+b.getAPONTEXTRA2()+"','"+b.getLOCALEXTRA2()+"','"+b.getGPSEXTRA2()+"',"+b.getROWID()+",'"+b.getDATACODFUNCIONATIO()+"');";
+                                        "values('"+format.format(d)+" 00:00:00',"+b.getCODFUNCIONATIO()+",'"+b.getDESCRICAO()+"','"+b.getAPONT1()+"','"+l1+"','"+b.getGPS1()+"','"+b.getAPONT2()+"','"+l2+"','"+b.getGPS2()+"','"+b.getAPONT3()+"','"+l3+"','"+b.getGPS3()+"','"+b.getAPONT4()+"','"+l4+"','"+b.getGPS4()+"','"+b.getAPONTEXTRA()+"','"+le+"','"+b.getGPSEXTRA()+"','"+b.getAPONTEXTRA2()+"','"+le2+"','"+b.getGPSEXTRA2()+"',"+b.getROWID()+",'"+b.getDATACODFUNCIONATIO()+"');";
                                 Log.i("QueryReplace",replace);
                                 db.execSQL(replace);
                                 db.close();
@@ -521,8 +596,113 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
         switch (item.getItemId()) {
             case R.id.nav_item_one: {
                 Toast.makeText(this, "Funcionarios", Toast.LENGTH_SHORT).show();
-                Intent it = new Intent(SearchListActivity.this, MainActivity.class);
-                startActivity(it);
+              /*  Intent it = new Intent(SearchListActivity.this, MainActivity.class);
+                startActivity(it);*/
+                break;
+            }
+            case R.id.nav_item_two: {
+                Toast.makeText(this, "Ex Funcionarios", Toast.LENGTH_SHORT).show();
+                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                final View layout = inflater.inflate(R.layout.dialog_signin, (ViewGroup) findViewById(R.id.telaSenha) );
+                final EditText password1 = (EditText) layout.findViewById(R.id.password);
+                final TextView error = (TextView) layout.findViewById(R.id.TextView_PwdProblem);
+
+                password1.addTextChangedListener(new TextWatcher() {
+                    public void afterTextChanged(Editable s) {
+                        String strPass1 = password1.getText().toString();
+
+                        if (strPass1.equals(MY_PASSWORD_DIALOG_ID)) {
+                            error.setText("Logar");
+                        } else {
+                            error.setText("Senha Incorreta");
+                        }
+                    }
+
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {}
+                });
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Senha");
+                builder.setView(layout);
+
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        removeDialog(R.layout.dialog_signin);
+                    }
+                });
+
+                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String strPassword1 = password1.getText().toString();
+
+                        if (strPassword1.equals(MY_PASSWORD_DIALOG_ID)) {
+                            Toast.makeText(getApplicationContext(),
+                                    "Logado Com Sucesso!!!", Toast.LENGTH_SHORT).show();
+                        }
+                        removeDialog(R.layout.dialog_signin);
+                    }
+                });
+
+                AlertDialog passwordDialog = builder.create();
+                passwordDialog.show();
+
+                /*  Intent it = new Intent(SearchListActivity.this, MainActivity.class);
+                startActivity(it);*/
+                break;
+            }
+            case R.id.nav_item_three: {
+                Toast.makeText(this, "Relatório", Toast.LENGTH_SHORT).show();
+
+                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                final View layout = inflater.inflate(R.layout.dialog_signin, (ViewGroup) findViewById(R.id.telaSenha) );
+                final EditText password1 = (EditText) layout.findViewById(R.id.password);
+                final TextView error = (TextView) layout.findViewById(R.id.TextView_PwdProblem);
+
+                password1.addTextChangedListener(new TextWatcher() {
+                    public void afterTextChanged(Editable s) {
+                        String strPass1 = password1.getText().toString();
+
+                        if (strPass1.equals(MY_PASSWORD_DIALOG_ID)) {
+                        error.setText("Logar");
+                        } else {
+                            error.setText("Senha Incorreta");
+                        }
+                    }
+
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {}
+                });
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Senha");
+                builder.setView(layout);
+
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        removeDialog(R.layout.dialog_signin);
+                    }
+                });
+
+                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String strPassword1 = password1.getText().toString();
+
+                        if (strPassword1.equals(MY_PASSWORD_DIALOG_ID)) {
+                            Toast.makeText(getApplicationContext(),
+                                    "Logado Com Sucesso!!!", Toast.LENGTH_SHORT).show();
+                        }
+                        removeDialog(R.layout.dialog_signin);
+                    }
+                });
+
+                AlertDialog passwordDialog = builder.create();
+                passwordDialog.show();
+
+
+
+
+
                 break;
             }
             default: {
@@ -533,6 +713,7 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
     @Override
     public void onBackPressed() {
@@ -565,6 +746,7 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
     public interface MyCallback {
         void onCallback(String value);
     }
+
 
 
 

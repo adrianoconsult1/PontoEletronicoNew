@@ -4,5 +4,11 @@
             <item android:id="@+id/nav_item_one"
                 android:icon="@drawable/ic_group_black_24dp"
                 android:title="Funcionarios" />
+            <item android:id="@+id/nav_item_two"
+                android:icon="@drawable/ic_people_outline_black_24dp"
+                android:title="Ex Funcionarios" />
+            <item android:id="@+id/nav_item_three"
+                android:icon="@drawable/ic_assignment_black_24dp"
+                android:title="Relatorios" />
         </group>
     </menu>

@@ -64,7 +64,10 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
     public void onCreate(Bundle savedInstanceState) {
         codFunc = 23;
         d = null;
+
+
         super.onCreate(savedInstanceState);
+        //overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         setContentView(R.layout.cadastro_main);
         setTitle("Apontamento");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -520,7 +523,7 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
         final SQLiteDatabase db = new DatabaseHelper(getApplicationContext()).getWritableDatabase();
         Cursor cursor = db.rawQuery("select codfuncionatio || ': ' || nome from funcionarios where codfuncionatio = " + funcionario, null);
         cursor.moveToFirst();
-        final String descricao = cursor.getString(0);
+        final String descricao = SpiFuncionario.getSelectedItem().toString();
 
 
         final Ponto[] p = {new Ponto()};

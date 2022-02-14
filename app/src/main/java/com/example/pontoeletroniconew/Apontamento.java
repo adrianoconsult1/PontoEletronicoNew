@@ -80,7 +80,9 @@ public class Apontamento extends AppCompatActivity
 
     public void onCreate(Bundle savedInstanceState)
     {
+
         super.onCreate(savedInstanceState);
+        //overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         setContentView(R.layout.ponto_item);
         Intent intent = getIntent();
         savedInstanceState = intent.getExtras();
