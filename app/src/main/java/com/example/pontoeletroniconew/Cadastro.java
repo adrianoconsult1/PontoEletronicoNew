@@ -182,6 +182,7 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private void loadSpinnerData(final int tipo) {
         final ApontamentoDataSource db = new ApontamentoDataSource(getApplicationContext());
 
@@ -696,14 +697,17 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
 
         if(tipo == 0)
         {
-            insereDado(format.format(Calendar.getInstance().getTime())+" 00:00:00", codFunc, "" + hora.format(Calendar.getInstance().getTime()), local.getText().toString(), String.valueOf(latitude) + ", " + String.valueOf(longitude), registro);
-
+            insereDado(format.format(Calendar.getInstance().getTime())+" 00:00:00", codFunc, "" + TimeAPIRequest.getTimeResponse(String.valueOf(latitude), String.valueOf(longitude)), local.getText().toString(), String.valueOf(latitude) + ", " + String.valueOf(longitude), registro);
+            //Log.i("DADOINSERINDO","" + hora.format(Calendar.getInstance().getTime()));
 
         }
         if(tipo == 1)
         {
-
-            alteraDado(""+format.format(d),funApontamentoActivity,"" + hora.format(Calendar.getInstance().getTime()),local.getText().toString(),String.valueOf(latitude) + ", " + String.valueOf(longitude),registro);
+            alteraDado(""+format.format(d),funApontamentoActivity,"" + TimeAPIRequest.getTimeResponse(String.valueOf(latitude), String.valueOf(longitude)),local.getText().toString(),String.valueOf(latitude) + ", " + String.valueOf(longitude),registro);
+            //alteraDado(""+format.format(d),funApontamentoActivity,"" + hora.format(Calendar.getInstance().getTime()),local.getText().toString(),String.valueOf(latitude) + ", " + String.valueOf(longitude),registro);
+            Log.i("DADOALTERANDO","" + hora.format(Calendar.getInstance().getTime()));
+            Log.i("DADOALTERANDO2","" + TimeAPIRequest.getTimeResponse(String.valueOf(latitude), String.valueOf(longitude)));
+            Log.i("DADOALTERANDOlatlong","" + String.valueOf(latitude) + "," + String.valueOf(longitude));
 
         }
 
