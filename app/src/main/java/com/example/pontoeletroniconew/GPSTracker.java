@@ -173,6 +173,7 @@ public class GPSTracker extends Service implements LocationListener {
             }
         });
 
+
 // on pressing cancel button
         alertDialog.setNegativeButton("Não", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
@@ -184,6 +185,35 @@ public class GPSTracker extends Service implements LocationListener {
         alertDialog.show();
     }
 
+
+    public void showSettingsInternetAlert(){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
+        //NETWORK_OPERATOR_SETTINGS
+        //DATA_ROAMING_SETTINGS
+// Setting Dialog Title
+        alertDialog.setTitle("Configurações de Internet");
+
+// Setting Dialog Message
+        alertDialog.setMessage("Sem Conexão com a Internet. Você quer ir ao menu de configurações?");
+
+// On pressing Settings button
+        alertDialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog,int which) {
+                Intent intent = new Intent(Settings.ACTION_NETWORK_OPERATOR_SETTINGS);
+                mContext.startActivity(intent);
+            }
+        });
+
+        // on pressing cancel button
+        alertDialog.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+// Showing Alert Message
+        alertDialog.show();
+    }
     @Override
     public void onLocationChanged(Location location) {
     }

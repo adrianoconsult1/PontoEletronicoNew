@@ -54,11 +54,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import static java.lang.Thread.sleep;
 
 
 public class SearchListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private ExpandableListView listView;
@@ -78,6 +78,8 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
     private NavigationView navigationView;
     private androidx.appcompat.widget.Toolbar toolbar;
     private Bundle b = new Bundle();
+
+    private FirebaseAuthentication firebaseAuthentication;
     String dayLast = null;
     private static final String MY_PASSWORD_DIALOG_ID = "RHPONTOMASTER";
     @Override
@@ -226,6 +228,9 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
         Firebase.setAndroidContext(this);
         FirebaseApp.initializeApp(getApplicationContext());
         FirebaseDatabase database = FirebaseDatabase.getInstance();
+        String userEmail = "pontoeletronicoaj@gmail.com";
+        String userPassword = "2AJ@eletronico";
+        firebaseAuthentication.authenticateUser(userEmail, userPassword);
         listDataHeader = new ArrayList<>();
         listHash = new HashMap<>();
         listFireHash = new HashMap<>();

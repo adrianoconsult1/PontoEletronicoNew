@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.*;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 
 
@@ -656,69 +657,88 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
 
 
     }
+    public boolean isOnline() {
+        ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
+        return manager.getActiveNetworkInfo() != null &&
+                manager.getActiveNetworkInfo().isConnectedOrConnecting();
+    }
     @Override
     public void onClick(View v)
     {
+        if (isOnline()) {
+                String lat;
+                String longi;
+                String compare;
+                try {
+                    obj = new String(SpiFuncionario.getSelectedItem().toString());
+                    codFunc = Integer.parseInt(obj.substring(0, 3));
+                    Log.i("SpinnerFun", "" + codFunc);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.i("SpinnerFun", "deu errado " + SpiFuncionario.getSelectedItem().toString() + "\n Cod: " + codFunc);
+                }
 
-        try
-        {
-            obj = new String(SpiFuncionario.getSelectedItem().toString());
-            codFunc = Integer.parseInt(obj.substring(0,3));
-            Log.i("SpinnerFun",""+ codFunc);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            Log.i("SpinnerFun","deu errado "+ SpiFuncionario.getSelectedItem().toString() +"\n Cod: "+codFunc);
-        }
+                registro = Integer.parseInt(String.valueOf(reg.getSelectedItem().toString().charAt(0)));
+                Log.i("SpinnerReg", "" + registro);
 
-        registro = Integer.parseInt(String.valueOf(reg.getSelectedItem().toString().charAt(0)));
-        Log.i("SpinnerReg",""+registro);
-
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat hora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Log.i("calendarHoraFormato",""+hora.format(Calendar.getInstance().getTime()));
-        Log.i("calendarComFormato",""+format.format(Calendar.getInstance().getTime()));
-        Log.i("Coordenadas",String.valueOf(latitude) + ", " + String.valueOf(longitude));
-        if(dataReg != null)
-        {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat hora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Log.i("calendarHoraFormato", "" + hora.format(Calendar.getInstance().getTime()));
+                Log.i("calendarComFormato", "" + format.format(Calendar.getInstance().getTime()));
+                Log.i("Coordenadas", String.valueOf(latitude) + ", " + String.valueOf(longitude));
+                if (dataReg != null) {
 
 
-            try {
-                d = new SimpleDateFormat("dd/MM/yyyy").parse(dataReg);
-            } catch (ParseException e) {
-                e.printStackTrace();
+                    try {
+                        d = new SimpleDateFormat("dd/MM/yyyy").parse(dataReg);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    Log.i("dataRegFormat2", "" + format.format(d));
+
+                }
+
+
+                if (tipo == 0) {
+                    lat = String.valueOf(latitude).trim();
+                    longi = String.valueOf(longitude).trim();
+                    Log.i("LatLongi", lat + "," + longi);
+                    compare = lat + "," + longi;
+                    if (compare.equals("0.0,0.0")) {
+                        lat = "-23.693415866458416";
+                        longi = "-46.46340277944578";
+                    }
+                    Log.i("LatLongi2", lat + "," + longi);
+                    insereDado(format.format(Calendar.getInstance().getTime()) + " 00:00:00", codFunc, "" + TimeAPIRequest.getTimeResponse(lat, longi), local.getText().toString(), lat + ", " + longi, registro);
+                    //Log.i("DADOINSERINDO","" + hora.format(Calendar.getInstance().getTime()));
+
+                }
+                if (tipo == 1) {
+                    lat = String.valueOf(latitude).trim();
+                    longi = String.valueOf(longitude).trim();
+                    Log.i("LatLongi", lat + "," + longi);
+                    compare = lat + "," + longi;
+                    if (compare.equals("0.0,0.0")) {
+                        lat = "-23.693415866458416";
+                        longi = "-46.46340277944578";
+                    }
+                    Log.i("LatLongi2", lat + "," + longi);
+                    alteraDado("" + format.format(d), funApontamentoActivity, "" + TimeAPIRequest.getTimeResponse(lat, longi), local.getText().toString(), lat + ", " + longi, registro);
+
+                }
+
+
+                Toast.makeText(getApplicationContext(), "Apontar", Toast.LENGTH_LONG).show();
+                Intent it = new Intent(Cadastro.this, SearchListActivity.class);
+                it.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(it);
             }
-            Log.i("dataRegFormat2",""+format.format(d));
-
-        }
-
-
-        if(tipo == 0)
+        else
         {
-            insereDado(format.format(Calendar.getInstance().getTime())+" 00:00:00", codFunc, "" + TimeAPIRequest.getTimeResponse(String.valueOf(latitude), String.valueOf(longitude)), local.getText().toString(), String.valueOf(latitude) + ", " + String.valueOf(longitude), registro);
-            //Log.i("DADOINSERINDO","" + hora.format(Calendar.getInstance().getTime()));
-
+            gps.showSettingsInternetAlert();
         }
-        if(tipo == 1)
-        {
-            alteraDado(""+format.format(d),funApontamentoActivity,"" + TimeAPIRequest.getTimeResponse(String.valueOf(latitude), String.valueOf(longitude)),local.getText().toString(),String.valueOf(latitude) + ", " + String.valueOf(longitude),registro);
-            //alteraDado(""+format.format(d),funApontamentoActivity,"" + hora.format(Calendar.getInstance().getTime()),local.getText().toString(),String.valueOf(latitude) + ", " + String.valueOf(longitude),registro);
-            Log.i("DADOALTERANDO","" + hora.format(Calendar.getInstance().getTime()));
-            Log.i("DADOALTERANDO2","" + TimeAPIRequest.getTimeResponse(String.valueOf(latitude), String.valueOf(longitude)));
-            Log.i("DADOALTERANDOlatlong","" + String.valueOf(latitude) + "," + String.valueOf(longitude));
-
-        }
-
-
-
-        Toast.makeText(getApplicationContext(),"Apontar",Toast.LENGTH_LONG).show();
-        Intent it = new Intent(Cadastro.this, SearchListActivity.class);
-        it.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-        startActivity(it);
     }
-
 }
 
 
