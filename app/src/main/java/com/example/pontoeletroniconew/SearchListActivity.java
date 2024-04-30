@@ -87,27 +87,31 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
 
 
         super.onCreate(savedInstanceState);
+        Log.i("SLA1","SLA1");
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
+        Log.i("SLA2","SLA2");
         b = savedInstanceState;
+        Log.i("SLA3","SLA3");
         setContentView(R.layout.lista_apontamentos);
+        Log.i("SLA4","SLA4");
         setTitle("Ponto Eletrônico");
 
         toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.barraMain);
 
         setSupportActionBar(toolbar);
-
+        Log.i("SLA5","SLA5");
         navigationView = (NavigationView) findViewById(R.id.navView);
         navigationView.setNavigationItemSelectedListener(this);
-
+        Log.i("SLA6","SLA6");
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_drawer, R.string.close_drawer);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
+        Log.i("SLA7","SLA7");
 
 
          swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.Swipe);
+        Log.i("SLA8","SLA8");
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -117,17 +121,19 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
              /* Intent it = new Intent(SearchListActivity.this, SearchListActivity.class);
                 it.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY );
                 startActivity(it); */
+                Log.i("SLA9","SLA9");
                 recreate();
-
+                Log.i("SLA10","SLA10");
                //  initData();
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        Log.i("SLA11","SLA11");
                         swipeRefreshLayout.setRefreshing(false);
                     }
                 },4000);
-
+                Log.i("SLA12","SLA12");
 
 
 
@@ -139,23 +145,24 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light,
                 android.R.color.holo_purple);
-
+        Log.i("SLA13","SLA13");
         source = new ApontamentoDataSource(getApplicationContext());
         DisplayMetrics metrics = new DisplayMetrics();
         listView = (ExpandableListView)findViewById(R.id.lvExp);
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int width = metrics.widthPixels;
-
+        Log.i("SLA14","SLA14");
         listView.setIndicatorBounds(width - GetDipsFromPixel(50), width - 40);
         int resId = R.anim.layout_animation_fall_down;
         LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(getApplicationContext(), resId);
         listView.setLayoutAnimation(animation);
-
+        Log.i("SLA15","SLA15");
 
 
         initData();
         floatButton = (ImageButton) findViewById(R.id.btnAdd);
         Log.i("ListFirePos","antes");
+        Log.i("SLA16","SLA16");
 
         Log.i("ListFirePos",aux.toString());
 
@@ -225,26 +232,32 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
     private void initData() {
         pontos.clear();
         aux.clear();
+        Log.i("SEARCH1","SEARCH1");
         Firebase.setAndroidContext(this);
+        Log.i("SEARCH2","SEARCH2");
         FirebaseApp.initializeApp(getApplicationContext());
+        Log.i("SEARCH3","SEARCH3");
         FirebaseDatabase database = FirebaseDatabase.getInstance();
+        Log.i("SEARCH4","SEARCH4");
         String userEmail = "pontoeletronicoaj@gmail.com";
         String userPassword = "2AJ@eletronico";
         firebaseAuthentication.authenticateUser(userEmail, userPassword);
+        Log.i("SEARCH5","SEARCH5");
         listDataHeader = new ArrayList<>();
         listHash = new HashMap<>();
         listFireHash = new HashMap<>();
         try {
             database.setPersistenceEnabled(true);
-
+            Log.i("SEARCH6","SEARCH6");
         }
         catch (Exception e)
         {
           //  Toast.makeText(getApplicationContext(),"Fire Off",Toast.LENGTH_LONG).show();
         }
         final DatabaseReference myRef = database.getReference();
+        Log.i("SEARCH7","SEARCH7");
         myRef.keepSynced(true);
-        Log.i("Referencia",""+database.getReference());
+        Log.i("SEARCH8",""+database.getReference());
 
         myRef.child("apontamentos").addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -253,7 +266,7 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
 
                 for(DataSnapshot objSnapshot:dataSnapshot.getChildren()) {
                     Ponto p = objSnapshot.getValue(Ponto.class);
-              //      Log.i("Filho",p.toString());
+                    Log.i("Filho",p.toString());
                       pontos.add(p);
                     final Calendar c = Calendar.getInstance();
                       Date d = null;
@@ -266,7 +279,7 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
                     cabs.add(c.getTime());
 
 
-               //     Log.i("FilhosTam",""+pontos.size());
+                    Log.i("FilhosTam",""+pontos.size());
                 }
                 Iterator<Date> ite = cabs.descendingIterator();
                 while(ite.hasNext()) {
@@ -294,18 +307,20 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
 
                 for (int i = 0; i < 7; i++)
                 {
+                    Log.i("ListFireHash44",listFireHash.toString());
                     // if(pontos.size() > 0) {
                     listDataHeader.add(ord.get(i));
                     Query q = null;
                     aux.clear();
-
+                    Log.i("ListFireHash444",listFireHash.toString());
                     q = FirebaseDatabase.getInstance().getReference().child("apontamentos").orderByChild("data").equalTo(ord.get(i));
+                    Log.i("ListFireHash4444",listFireHash.toString());
                     q.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             for(DataSnapshot objSnapshot:dataSnapshot.getChildren()) {
                                 Ponto b = objSnapshot.getValue(Ponto.class);
-                                Log.i("Pts",b.toString());
+                                Log.i("ListFireHash44444",b.toString());
                                 ContentValues valores;
                                 long resultado;
 
@@ -488,7 +503,7 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
         }
         final DatabaseReference myRef = database.getReference();
         myRef.keepSynced(true);
-        Log.i("Referencia",""+database.getReference());
+        Log.i("Referencia2",""+database.getReference());
 
         myRef.child("apontamentos").orderByChild("data").limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

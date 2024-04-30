@@ -33,6 +33,7 @@ import java.util.*;
 public class Cadastro extends AppCompatActivity implements View.OnClickListener {
 
     private static final int REQUEST_LOCATION = 1;
+    private static final int REQUEST_INTERNET = 1;
     private TextView hoje;
     private Spinner SpiFuncionario;
     private Button btnSalvar;
@@ -77,6 +78,7 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
 
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+        ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_NETWORK_STATE}, REQUEST_INTERNET);
         Intent intent = getIntent();
         savedInstanceState = intent.getExtras();
         tipo = savedInstanceState.getInt("tipo");
@@ -99,10 +101,12 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
         Log.i("funApontamentoActivity", "" + funApontamentoActivity);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            Log.i("GPSs1","L1");
             gps.showSettingsAlert();
         }
 
         if (!gps.canGetLocation()) {
+            Log.i("GPSs2","L2");
             gps.showSettingsAlert();
         }
 
@@ -168,7 +172,6 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
         btnSalvar.setOnClickListener(this);
         registro = Integer.parseInt(String.valueOf(reg.getSelectedItem().toString().charAt(0)));
         Log.i("SpinnerRegistro", "" + registro);
-
     }
 
     public boolean onOptionsItemSelected(MenuItem item)
@@ -422,6 +425,7 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
         if(c != null) {
             p.setDATA(format.format(c));
         }
+
         Log.i("Data Alt",p.getDATA());
 
 
@@ -564,6 +568,7 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
                if(c != null) {
                    p[0].setDATA(format.format(c));
                }
+
                Log.i("Data Alt",p[0].getDATA());
 
 
@@ -663,10 +668,14 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
         return manager.getActiveNetworkInfo() != null &&
                 manager.getActiveNetworkInfo().isConnectedOrConnecting();
     }
+
     @Override
     public void onClick(View v)
     {
-        if (isOnline()) {
+        Log.i("isOnline1",Boolean.toString(isOnline()));
+        Log.i("isOnline2",Boolean.toString((gps.canGetLocation() || locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))));
+        Log.i("isOnline3",Boolean.toString(!((String.valueOf(latitude).trim() + "," + String.valueOf(longitude).trim()).equals("0.0,0.0"))));
+        if (isOnline() && (gps.canGetLocation() || locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) && (!((String.valueOf(latitude).trim() + "," + String.valueOf(longitude).trim()).equals("0.0,0.0"))) ) {
                 String lat;
                 String longi;
                 String compare;
@@ -681,7 +690,6 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
 
                 registro = Integer.parseInt(String.valueOf(reg.getSelectedItem().toString().charAt(0)));
                 Log.i("SpinnerReg", "" + registro);
-
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 SimpleDateFormat hora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Log.i("calendarHoraFormato", "" + hora.format(Calendar.getInstance().getTime()));
@@ -705,12 +713,12 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
                     longi = String.valueOf(longitude).trim();
                     Log.i("LatLongi", lat + "," + longi);
                     compare = lat + "," + longi;
-                    if (compare.equals("0.0,0.0")) {
-                        lat = "-23.693415866458416";
-                        longi = "-46.46340277944578";
-                    }
                     Log.i("LatLongi2", lat + "," + longi);
-                    insereDado(format.format(Calendar.getInstance().getTime()) + " 00:00:00", codFunc, "" + TimeAPIRequest.getTimeResponse(lat, longi), local.getText().toString(), lat + ", " + longi, registro);
+                    String LatLong = TimeAPIRequest.getTimeResponse(String.valueOf(latitude).trim(), String.valueOf(longitude).trim());
+                    String dateTime  = LatLong.split("dateTime")[1].split("\":\"")[1].split(",\"")[0].split("\\.")[0].replace("T"," ");
+                    String date = LatLong.split("\"date\":\"")[1].split("\",\"")[0];
+                    Log.i("SUBSTRDATE",dateTime.substring(0,10));
+                    insereDado(dateTime.substring(0,10) + " 00:00:00", codFunc, "" + dateTime, local.getText().toString(), lat + ", " + longi, registro);
                     //Log.i("DADOINSERINDO","" + hora.format(Calendar.getInstance().getTime()));
 
                 }
@@ -719,12 +727,12 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
                     longi = String.valueOf(longitude).trim();
                     Log.i("LatLongi", lat + "," + longi);
                     compare = lat + "," + longi;
-                    if (compare.equals("0.0,0.0")) {
-                        lat = "-23.693415866458416";
-                        longi = "-46.46340277944578";
-                    }
                     Log.i("LatLongi2", lat + "," + longi);
-                    alteraDado("" + format.format(d), funApontamentoActivity, "" + TimeAPIRequest.getTimeResponse(lat, longi), local.getText().toString(), lat + ", " + longi, registro);
+                    String LatLong = TimeAPIRequest.getTimeResponse(String.valueOf(latitude).trim(), String.valueOf(longitude).trim());
+                    String dateTime  = LatLong.split("dateTime")[1].split("\":\"")[1].split(",\"")[0].split("\\.")[0].replace("T"," ");
+                    String date = LatLong.split("\"date\":\"")[1].split("\",\"")[0];
+                    Log.i("SUBSTRDATE",dateTime.substring(0,10));
+                    alteraDado("" + dateTime.substring(0,10) + " 00:00:00", funApontamentoActivity, "" + dateTime, local.getText().toString(), lat + ", " + longi, registro);
 
                 }
 
@@ -736,7 +744,18 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
             }
         else
         {
-            gps.showSettingsInternetAlert();
+            if(!isOnline())
+            {
+                gps.showSettingsInternetAlert();
+            }
+            if((!gps.canGetLocation() || !locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)))
+            {
+                gps.showSettingsAlert();
+            }
+            if(((String.valueOf(latitude).trim() + "," + String.valueOf(longitude).trim()).equals("0.0,0.0")))
+            {
+                gps.showSettingsAlert();
+            }
         }
     }
 }

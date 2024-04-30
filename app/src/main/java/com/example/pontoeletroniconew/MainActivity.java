@@ -47,25 +47,33 @@ public class MainActivity extends AppCompatActivity implements ContactsAdapter.C
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        Long oa = System.currentTimeMillis();
         // toolbar fancy stuff
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.toolbar_title);
-
+        Long ob = System.currentTimeMillis();
+        Log.i("TM1",Long.toString( ob-oa));
+        Long oaa = System.currentTimeMillis();
         recyclerView = findViewById(R.id.recycler_view);
         contactList = new ArrayList<>();
         mAdapter = new ContactsAdapter(this, contactList, this);
 
         // white background notification bar
         whiteNotificationBar(recyclerView);
-
+        Long obb = System.currentTimeMillis();
+        Log.i("TM2", Long.toString(obb-oaa));
+        Long oac = System.currentTimeMillis();
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new MyDividerItemDecoration(this, DividerItemDecoration.VERTICAL, 36));
         recyclerView.setAdapter(mAdapter);
-
+        Long obd = System.currentTimeMillis();
+        Log.i("TM3",  Long.toString(obd-oac));
+        Long obe = System.currentTimeMillis();
         fetchContacts();
+        Long obf = System.currentTimeMillis();
+        Log.i("TM4",  Long.toString(obf-obe));
     }
 
     /**

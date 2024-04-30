@@ -1,6 +1,7 @@
 package com.example.pontoeletroniconew;
 
 import android.os.StrictMode;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -38,7 +39,7 @@ public class TimeAPIRequest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return response.split("dateTime")[1].split("\":\"")[1].split(",\"")[0].split("\\.")[0].replace("T"," ");
+        Log.i("STRLATLONG",response);
+        return response;
     }
 }
