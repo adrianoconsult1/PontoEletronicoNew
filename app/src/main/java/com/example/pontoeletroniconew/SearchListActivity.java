@@ -1,52 +1,28 @@
 package com.example.pontoeletroniconew;
 
-import android.app.ActivityOptions;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.AsyncQueryHandler;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
-
-import java.text.Normalizer;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.concurrent.CountDownLatch;
-
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-import android.widget.*;
-import com.firebase.client.Firebase;
-import com.firebase.client.annotations.Nullable;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.*;
-import com.google.firebase.firestore.model.SnapshotVersion;
-import com.google.firebase.firestore.model.mutation.MutationResult;
-import com.google.firebase.firestore.remote.WriteStream;
-import io.grpc.Status;
-import org.json.JSONException;
-import org.json.JSONObject;
-import android.app.Activity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Toolbar;
-
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -54,7 +30,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import static java.lang.Thread.sleep;
+
+import com.firebase.client.Firebase;
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.Normalizer;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.TreeSet;
 
 
 public class SearchListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -240,7 +236,7 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         Log.i("SEARCH4","SEARCH4");
         String userEmail = "pontoeletronicoaj@gmail.com";
-        String userPassword = "2AJ@eletronico";
+        String userPassword = "2AJ@eletronico3";
         firebaseAuthentication.authenticateUser(userEmail, userPassword);
         Log.i("SEARCH5","SEARCH5");
         listDataHeader = new ArrayList<>();
