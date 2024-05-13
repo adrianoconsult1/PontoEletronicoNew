@@ -112,6 +112,7 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
             @Override
             public void onRefresh() {
                 drawerLayout.refreshDrawableState();
+                listAdapter = new ExpandableListAdapter(getApplicationContext(),listDataHeader,listHash);
                 listAdapter.notifyDataSetChanged();
                 Toast.makeText(getApplicationContext(),"Atualizando Tela Inicial ",Toast.LENGTH_LONG).show();
              /* Intent it = new Intent(SearchListActivity.this, SearchListActivity.class);
@@ -126,9 +127,9 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
                     @Override
                     public void run() {
                         Log.i("SLA11","SLA11");
-                        swipeRefreshLayout.setRefreshing(false);
+                        swipeRefreshLayout.setRefreshing(true);
                     }
-                },4000);
+                },12000);
                 Log.i("SLA12","SLA12");
 
 
@@ -248,7 +249,7 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
         }
         catch (Exception e)
         {
-          //  Toast.makeText(getApplicationContext(),"Fire Off",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"Fire Off",Toast.LENGTH_LONG).show();
         }
         final DatabaseReference myRef = database.getReference();
         Log.i("SEARCH7","SEARCH7");
@@ -494,8 +495,8 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
 
         }
         catch (Exception e)
-        {
-            //  Toast.makeText(getApplicationContext(),"Fire Off",Toast.LENGTH_LONG).show();
+       {
+              Toast.makeText(getApplicationContext(),"Fire Off",Toast.LENGTH_LONG).show();
         }
         final DatabaseReference myRef = database.getReference();
         myRef.keepSynced(true);
