@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.pontoeletroniconew">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
 
     <application
         android:allowBackup="true"
@@ -27,7 +31,8 @@
         <activity
             android:name=".SearchListActivity"
             android:label="Ponto Eletronico"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.CALL" />
@@ -37,7 +42,8 @@
         </activity>
         <activity
             android:name=".Cadastro"
-            android:label="Apontamento">
+            android:label="Apontamento"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.CALL" />
@@ -46,7 +52,8 @@
         </activity>
         <activity
             android:name=".Apontamento"
-            android:label="Ponto">
+            android:label="Ponto"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.CALL" />
@@ -55,14 +62,17 @@
         </activity>
         <activity
             android:name=".LocalizacaoPonto"
-            android:label="Ponto">
+            android:label="Ponto"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.CALL" />
 
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" android:theme="@style/AppTheme.NoActionBar" android:label="@string/app_name">
+        <activity android:name=".MainActivity" android:theme="@style/AppTheme.NoActionBar" android:label="@string/app_name"
+            android:exported="true"
+            tools:ignore="RedundantLabel">
         <meta-data android:name="android.app.searchable" android:resource="@xml/searchable"/>
         <intent-filter>
             <action android:name="android.intent.action.SEARCH"/>

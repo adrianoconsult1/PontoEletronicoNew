@@ -249,7 +249,7 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
         }
         catch (Exception e)
         {
-            Toast.makeText(getApplicationContext(),"Fire Off",Toast.LENGTH_LONG).show();
+           // Toast.makeText(getApplicationContext(),"Fire Off",Toast.LENGTH_LONG).show();
         }
         final DatabaseReference myRef = database.getReference();
         Log.i("SEARCH7","SEARCH7");
@@ -496,7 +496,7 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
         }
         catch (Exception e)
        {
-              Toast.makeText(getApplicationContext(),"Fire Off",Toast.LENGTH_LONG).show();
+             // Toast.makeText(getApplicationContext(),"Fire Off",Toast.LENGTH_LONG).show();
         }
         final DatabaseReference myRef = database.getReference();
         myRef.keepSynced(true);

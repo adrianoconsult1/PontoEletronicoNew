@@ -200,12 +200,12 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
         FirebaseApp.initializeApp(getApplicationContext());
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         try {
-            database.setPersistenceEnabled(false);
+            database.setPersistenceEnabled(true);
 
         }
         catch (Exception e)
         {
-             Toast.makeText(getApplicationContext(),"Erro Firebase",Toast.LENGTH_LONG).show();
+            // Toast.makeText(getApplicationContext(),"Erro Firebase",Toast.LENGTH_LONG).show();
         }
         final DatabaseReference myRef = database.getReference();
         myRef.keepSynced(true);
