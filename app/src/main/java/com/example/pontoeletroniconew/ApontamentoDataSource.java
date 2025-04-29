@@ -1,19 +1,19 @@
 package com.example.pontoeletroniconew;
 
+import static android.os.SystemClock.sleep;
+
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import android.util.Log;
-import org.json.JSONException;
-import org.json.JSONObject;
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-
-import static android.os.SystemClock.sleep;
 
 public class ApontamentoDataSource
 {
@@ -203,7 +203,7 @@ public class ApontamentoDataSource
             e.printStackTrace();
         }
         String dataFormatada = saida.format(newDate);
-        Log.i("DataHeader",""+dataFormatada);
+        //Log.i("DataHeader",""+dataFormatada);
 
 
         // Iremos buscar todas as linguagens cadastradas no banco
@@ -211,7 +211,7 @@ public class ApontamentoDataSource
         // O objeto de retorno contém a referencias das linhas retornadas
         // String query = "select strftime('%d/%m/%Y',DATA), CODFUNCIONATIO from apontamentos order by data desc";
         String query = "select descricao from apontamentos a where a.Data = '"+dataFormatada+" 00:00:00' order by a.Data desc";
-        Log.i("DiaQuery",query);
+        //Log.i("DiaQuery",query);
         Cursor cursor = db.rawQuery(query,null);
         sleep(5);
         cursor.moveToFirst();

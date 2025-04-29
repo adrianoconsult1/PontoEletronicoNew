@@ -6,15 +6,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.location.*;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-
-
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.*;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,13 +25,22 @@ import androidx.core.app.ActivityCompat;
 
 import com.firebase.client.Firebase;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.*;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 public class Cadastro extends AppCompatActivity implements View.OnClickListener {
 
@@ -232,20 +244,20 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
                // query.addListenerForSingleValueEvent(this);
                 //    Log.i("FuncUniq",""+ query.toString());
                 if (tipo == 0) {
-                    Log.i("fireFunc: ",fireFunc.toString());
-                    Log.i("funcApontadosCad",apontados.toString());
+                    //Log.i("fireFunc: ",fireFunc.toString());
+                    //Log.i("funcApontadosCad",apontados.toString());
                     for(int i = 0; i < fireFunc.size() ; i++ )
                     {
-                        Log.i("funcApontadosFor1","For1 rodada:" + i);
+                        //Log.i("funcApontadosFor1","For1 rodada:" + i);
                         for(int i2 = 0 ; i2 < apontados.size() ; i2++)
                         {
-                            Log.i("funcApontadosFor2","For2 rodada:["+i+"][" + i2 +"]" );
-                            Log.i("funcApontadosIf", fireFunc.get(i).toString() +" == "+ apontados.get(i2).toString());
+                            //Log.i("funcApontadosFor2","For2 rodada:["+i+"][" + i2 +"]" );
+                            //Log.i("funcApontadosIf", fireFunc.get(i).toString() +" == "+ apontados.get(i2).toString());
                             if(fireFunc.get(i).equals(apontados.get(i2)))
                             {
                                 fireFunc.remove(i);
 
-                                Log.i("funcApontadosCad","removeu: "+apontados.get(i2));
+                                //Log.i("funcApontadosCad","removeu: "+apontados.get(i2));
                             }
                         }
                     }
@@ -269,7 +281,7 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
                                 fireFunc.add(f.getCodNome());
 
                             }
-                            Log.i("fireFunc: ", fireFunc.toString());
+                            //Log.i("fireFunc: ", fireFunc.toString());
                             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(Cadastro.this, android.R.layout.simple_spinner_item, fireFunc);
                             SpiFuncionario.setAdapter(dataAdapter);
                         }
@@ -308,7 +320,7 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
 
 
         });
-        Log.i("fireFuncDPS: ",fireFunc.toString());
+        //Log.i("fireFuncDPS: ",fireFunc.toString());
         /*
 
         if (tipo == 0) {
@@ -715,8 +727,21 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
                     compare = lat + "," + longi;
                     Log.i("LatLongi2", lat + "," + longi);
                     String LatLong = TimeAPIRequest.getTimeResponse(String.valueOf(latitude).trim(), String.valueOf(longitude).trim());
-                    String dateTime  = LatLong.split("dateTime")[1].split("\":\"")[1].split(",\"")[0].split("\\.")[0].replace("T"," ");
-                    String date = LatLong.split("\"date\":\"")[1].split("\",\"")[0];
+                    Log.i("LatLong3", LatLong);
+                    //String dateTime  = LatLong.split("dateTime")[1].split("\":\"")[1].split(",\"")[0].split("\\.")[0].replace("T"," ");
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(LatLong);
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                    String dateTime = null;
+                    try {
+                        dateTime = jsonObject.getString("formatted");
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                    //String date = LatLong.split("\"date\":\"")[1].split("\",\"")[0];
                     Log.i("SUBSTRDATE",dateTime.substring(0,10));
                     insereDado(dateTime.substring(0,10) + " 00:00:00", codFunc, "" + dateTime, local.getText().toString(), lat + ", " + longi, registro);
                     //Log.i("DADOINSERINDO","" + hora.format(Calendar.getInstance().getTime()));
@@ -729,8 +754,20 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
                     compare = lat + "," + longi;
                     Log.i("LatLongi2", lat + "," + longi);
                     String LatLong = TimeAPIRequest.getTimeResponse(String.valueOf(latitude).trim(), String.valueOf(longitude).trim());
-                    String dateTime  = LatLong.split("dateTime")[1].split("\":\"")[1].split(",\"")[0].split("\\.")[0].replace("T"," ");
-                    String date = LatLong.split("\"date\":\"")[1].split("\",\"")[0];
+                    //String dateTime  = LatLong.split("dateTime")[1].split("\":\"")[1].split(",\"")[0].split("\\.")[0].replace("T"," ");
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(LatLong);
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                    String dateTime = null;
+                    try {
+                        dateTime = jsonObject.getString("formatted");
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                    //String date = LatLong.split("\"date\":\"")[1].split("\",\"")[0];
                     Log.i("SUBSTRDATE",dateTime.substring(0,10));
                     alteraDado("" + dateTime.substring(0,10) + " 00:00:00", funApontamentoActivity, "" + dateTime, local.getText().toString(), lat + ", " + longi, registro);
 

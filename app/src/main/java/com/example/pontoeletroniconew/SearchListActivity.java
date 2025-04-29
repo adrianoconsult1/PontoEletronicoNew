@@ -83,31 +83,31 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
 
 
         super.onCreate(savedInstanceState);
-        Log.i("SLA1","SLA1");
+        //Log.i("SLA1","SLA1");
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-        Log.i("SLA2","SLA2");
+        //Log.i("SLA2","SLA2");
         b = savedInstanceState;
-        Log.i("SLA3","SLA3");
+        //Log.i("SLA3","SLA3");
         setContentView(R.layout.lista_apontamentos);
-        Log.i("SLA4","SLA4");
+        //Log.i("SLA4","SLA4");
         setTitle("Ponto Eletrônico");
 
         toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.barraMain);
 
         setSupportActionBar(toolbar);
-        Log.i("SLA5","SLA5");
+        //Log.i("SLA5","SLA5");
         navigationView = (NavigationView) findViewById(R.id.navView);
         navigationView.setNavigationItemSelectedListener(this);
-        Log.i("SLA6","SLA6");
+        //Log.i("SLA6","SLA6");
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_drawer, R.string.close_drawer);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-        Log.i("SLA7","SLA7");
+        //Log.i("SLA7","SLA7");
 
 
          swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.Swipe);
-        Log.i("SLA8","SLA8");
+        //Log.i("SLA8","SLA8");
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -118,19 +118,19 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
              /* Intent it = new Intent(SearchListActivity.this, SearchListActivity.class);
                 it.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY );
                 startActivity(it); */
-                Log.i("SLA9","SLA9");
+                //Log.i("SLA9","SLA9");
                 recreate();
-                Log.i("SLA10","SLA10");
+                //Log.i("SLA10","SLA10");
                //  initData();
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Log.i("SLA11","SLA11");
+                        //Log.i("SLA11","SLA11");
                         swipeRefreshLayout.setRefreshing(true);
                     }
                 },12000);
-                Log.i("SLA12","SLA12");
+                //Log.i("SLA12","SLA12");
 
 
 
@@ -142,26 +142,26 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light,
                 android.R.color.holo_purple);
-        Log.i("SLA13","SLA13");
+        //Log.i("SLA13","SLA13");
         source = new ApontamentoDataSource(getApplicationContext());
         DisplayMetrics metrics = new DisplayMetrics();
         listView = (ExpandableListView)findViewById(R.id.lvExp);
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int width = metrics.widthPixels;
-        Log.i("SLA14","SLA14");
+        //Log.i("SLA14","SLA14");
         listView.setIndicatorBounds(width - GetDipsFromPixel(50), width - 40);
         int resId = R.anim.layout_animation_fall_down;
         LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(getApplicationContext(), resId);
         listView.setLayoutAnimation(animation);
-        Log.i("SLA15","SLA15");
+        //Log.i("SLA15","SLA15");
 
 
         initData();
         floatButton = (ImageButton) findViewById(R.id.btnAdd);
-        Log.i("ListFirePos","antes");
-        Log.i("SLA16","SLA16");
+        //Log.i("ListFirePos","antes");
+        //Log.i("SLA16","SLA16");
 
-        Log.i("ListFirePos",aux.toString());
+        //Log.i("ListFirePos",aux.toString());
 
         floatButton.setOnClickListener(new View.OnClickListener()
             {
@@ -178,7 +178,7 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
                    List<String> a = new ArrayList<>();
                    a = source.apontamentosDoDia(format.format(Calendar.getInstance().getTime()));
                    it.putStringArrayListExtra ("funcApontados",(ArrayList<String>) a);
-                   Log.i("funcApontados",format.format(Calendar.getInstance().getTime())+"   "+a.toString());
+                   //Log.i("funcApontados",format.format(Calendar.getInstance().getTime())+"   "+a.toString());
                    it.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                    startActivity(it);
                 }
@@ -229,32 +229,32 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
     private void initData() {
         pontos.clear();
         aux.clear();
-        Log.i("SEARCH1","SEARCH1");
+        //Log.i("SEARCH1","SEARCH1");
         Firebase.setAndroidContext(this);
-        Log.i("SEARCH2","SEARCH2");
+        //Log.i("SEARCH2","SEARCH2");
         FirebaseApp.initializeApp(getApplicationContext());
-        Log.i("SEARCH3","SEARCH3");
+        //Log.i("SEARCH3","SEARCH3");
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        Log.i("SEARCH4","SEARCH4");
+        //Log.i("SEARCH4","SEARCH4");
         String userEmail = "pontoeletronicoaj@gmail.com";
         String userPassword = "2AJ@eletronico3";
         firebaseAuthentication.authenticateUser(userEmail, userPassword);
-        Log.i("SEARCH5","SEARCH5");
+        //Log.i("SEARCH5","SEARCH5");
         listDataHeader = new ArrayList<>();
         listHash = new HashMap<>();
         listFireHash = new HashMap<>();
         try {
             database.setPersistenceEnabled(true);
-            Log.i("SEARCH6","SEARCH6");
+            //Log.i("SEARCH6","SEARCH6");
         }
         catch (Exception e)
         {
            // Toast.makeText(getApplicationContext(),"Fire Off",Toast.LENGTH_LONG).show();
         }
         final DatabaseReference myRef = database.getReference();
-        Log.i("SEARCH7","SEARCH7");
+        //Log.i("SEARCH7","SEARCH7");
         myRef.keepSynced(true);
-        Log.i("SEARCH8",""+database.getReference());
+        //Log.i("SEARCH8",""+database.getReference());
 
         myRef.child("apontamentos").addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -263,7 +263,7 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
 
                 for(DataSnapshot objSnapshot:dataSnapshot.getChildren()) {
                     Ponto p = objSnapshot.getValue(Ponto.class);
-                    Log.i("Filho",p.toString());
+                    //Log.i("Filho",p.toString());
                       pontos.add(p);
                     final Calendar c = Calendar.getInstance();
                       Date d = null;
@@ -276,7 +276,7 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
                     cabs.add(c.getTime());
 
 
-                    Log.i("FilhosTam",""+pontos.size());
+                    //Log.i("FilhosTam",""+pontos.size());
                 }
                 Iterator<Date> ite = cabs.descendingIterator();
                 while(ite.hasNext()) {
@@ -284,10 +284,10 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
                 }
                 qtdHeader = pontos.size();
                 cabs.descendingIterator();
-                Log.i("Cabeçalhos",ord.toString());
-                Log.i("QtdCabeçalhos",""+cabs.size());
-                Log.i("ListHeaderFire",""+qtdHeader);
-                Log.i("ListFireHash4",listFireHash.toString());
+                //Log.i("Cabeçalhos",ord.toString());
+                //Log.i("QtdCabeçalhos",""+cabs.size());
+                //Log.i("ListHeaderFire",""+qtdHeader);
+                //Log.i("ListFireHash4",listFireHash.toString());
 
                 String dia1 = ord.get(0);
 
@@ -304,20 +304,20 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
 
                 for (int i = 0; i < 7; i++)
                 {
-                    Log.i("ListFireHash44",listFireHash.toString());
+                    //Log.i("ListFireHash44",listFireHash.toString());
                     // if(pontos.size() > 0) {
                     listDataHeader.add(ord.get(i));
                     Query q = null;
                     aux.clear();
-                    Log.i("ListFireHash444",listFireHash.toString());
+                    //Log.i("ListFireHash444",listFireHash.toString());
                     q = FirebaseDatabase.getInstance().getReference().child("apontamentos").orderByChild("data").equalTo(ord.get(i));
-                    Log.i("ListFireHash4444",listFireHash.toString());
+                    //Log.i("ListFireHash4444",listFireHash.toString());
                     q.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             for(DataSnapshot objSnapshot:dataSnapshot.getChildren()) {
                                 Ponto b = objSnapshot.getValue(Ponto.class);
-                                Log.i("ListFireHash44444",b.toString());
+                                //Log.i("ListFireHash44444",b.toString());
                                 ContentValues valores;
                                 long resultado;
 
@@ -428,11 +428,11 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
 
                                 String replace = "INSERT OR REPLACE INTO apontamentos (data,codfuncionatio,descricao,apont1,local1,gps1,apont2,local2,gps2,apont3,local3,gps3,apont4,local4,gps4,apontextra,localextra,gpsextra,apontextra2,localextra2,gpsextra2,ROWID,DATACODFUNCIONATIO)\n" +
                                         "values('"+format.format(d)+" 00:00:00',"+b.getCODFUNCIONATIO()+",'"+b.getDESCRICAO()+"','"+b.getAPONT1()+"','"+l1+"','"+b.getGPS1()+"','"+b.getAPONT2()+"','"+l2+"','"+b.getGPS2()+"','"+b.getAPONT3()+"','"+l3+"','"+b.getGPS3()+"','"+b.getAPONT4()+"','"+l4+"','"+b.getGPS4()+"','"+b.getAPONTEXTRA()+"','"+le+"','"+b.getGPSEXTRA()+"','"+b.getAPONTEXTRA2()+"','"+le2+"','"+b.getGPSEXTRA2()+"',"+b.getROWID()+",'"+b.getDATACODFUNCIONATIO()+"');";
-                                Log.i("QueryReplace",replace);
+                                //Log.i("QueryReplace",replace);
                                 db.execSQL(replace);
                                 db.close();
                             }
-                            Log.i("ListFireHash3",aux.toString());
+                            //Log.i("ListFireHash3",aux.toString());
 
 
                         }
@@ -450,15 +450,15 @@ public class SearchListActivity extends AppCompatActivity implements NavigationV
                     listHash.put(ord.get(i),source.apontamentosDoDia(ord.get(i)));
 
                 }
-                Log.i("ListFire",pontos.toString());
-                Log.i("FireRoundPre",""+listDataHeader.size());
+                //Log.i("ListFire",pontos.toString());
+                //Log.i("FireRoundPre",""+listDataHeader.size());
 
                 List<String> keys = new ArrayList<>(listHash.keySet());
-                Log.i("FireRoundListDataHeader",""+ keys.get(0) );
+                //Log.i("FireRoundListDataHeader",""+ keys.get(0) );
                 getUltimoDiaApont(new MyCallback() {
                     @Override
                     public void onCallback(String value) {
-                        Log.i("FireRoundListMethod",""+value.toString());
+                        //Log.i("FireRoundListMethod",""+value.toString());
 
 
                     }

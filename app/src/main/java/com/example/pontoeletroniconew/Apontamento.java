@@ -1,17 +1,12 @@
 package com.example.pontoeletroniconew;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
+import static android.widget.Toast.LENGTH_LONG;
+
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,16 +16,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.firebase.client.Firebase;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.*;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import static android.widget.Toast.LENGTH_LONG;
 
 
 public class Apontamento extends AppCompatActivity
@@ -93,8 +90,8 @@ public class Apontamento extends AppCompatActivity
 
         dataReg  = savedInstanceState.getString("formatada");
         funcionario = savedInstanceState.getInt("funcionario");
-        Log.i("dataReg",dataReg);
-        Log.i("Funcionario",""+funcionario);
+        //Log.i("dataReg",dataReg);
+        //Log.i("Funcionario",""+funcionario);
         SimpleDateFormat format = new SimpleDateFormat("hh:mm:ss");
 
         SimpleDateFormat formate = new SimpleDateFormat("yyyy-MM-dd");
@@ -225,7 +222,7 @@ public class Apontamento extends AppCompatActivity
 
                 SimpleDateFormat dia = new SimpleDateFormat("dd/MM/yyyy");
                 String cmp = dia.format(d);
-                Log.i("IfDia",cmp + " = " + data.getText());
+                //Log.i("IfDia",cmp + " = " + data.getText());
 
                 if(cmp.equals(data.getText())) {
                     Toast.makeText(getApplicationContext(), "Apontar", LENGTH_LONG).show();
@@ -347,7 +344,7 @@ public class Apontamento extends AppCompatActivity
             {
                 hora = "                ";
             }
-            Log.i("HoraRetornada",""+hora);
+            //Log.i("HoraRetornada",""+hora);
         }
 
         return hora;
@@ -375,7 +372,7 @@ public class Apontamento extends AppCompatActivity
                     Ponto pt = objSnapshot.getValue(Ponto.class);
                     p[0] = pt;
                 }
-                Log.i("PontoRec",p[0].toString());
+                //Log.i("PontoRec",p[0].toString());
 
                 data.setText(p[0].getDATA());
                 func.setText(p[0].getDESCRICAO());

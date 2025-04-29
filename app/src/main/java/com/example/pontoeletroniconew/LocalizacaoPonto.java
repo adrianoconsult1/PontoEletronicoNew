@@ -69,12 +69,12 @@ public class LocalizacaoPonto extends AppCompatActivity implements OnMapReadyCal
         local1.setText(savedInstanceState.getString("local"));
         ROWID = savedInstanceState.getLong("rowid");
         gps1 = savedInstanceState.getString("gps");
-        Log.i("gpsLoc",gps1);
+        //Log.i("gpsLoc",gps1);
         String latlong[] = gps1.split(", ");
         latitude = Double.parseDouble(latlong[0]);
         longitude = Double.parseDouble(latlong[1]);
-        Log.i("gpsLocLtd",""+latitude);
-        Log.i("gpsLocLgt",""+longitude);
+        //Log.i("gpsLocLtd",""+latitude);
+        //Log.i("gpsLocLgt",""+longitude);
 
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
